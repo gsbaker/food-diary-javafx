@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
-    FoodDataAccessor foodDataAccessor;
+    private FoodDataAccessor foodDataAccessor;
 
     @Override
     public void start(Stage primaryStage) throws Exception {

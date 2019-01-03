@@ -33,7 +33,7 @@
                               <Insets top="4.0" />
                            </padding>
                         </Label>
-                        <TextField id="setTargetCaloriesTextField" promptText="Enter a number" />
+                        <TextField id="setTargetCaloriesTextField" fx:id="targetCaloriesInput" promptText="Enter a number" />
                         <Button mnemonicParsing="false" onAction="#editTargetCalories" text="Set" />
                      </children>
                      <padding>

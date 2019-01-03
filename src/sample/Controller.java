@@ -5,13 +5,17 @@ import javafx.scene.control.TextField;
 
 public class Controller {
 
-    private FoodDiary foodDiary;
-    @FXML private TextField setTargetCaloriesTextField;
+    public TextField targetCaloriesInput;
+    FoodDiary foodDiary = new FoodDiary();
 
     public void editTargetCalories() {
-        foodDiary = new FoodDiary();
-        int newTargetCalories = Integer.parseInt(setTargetCaloriesTextField.getText());
+
+        System.out.println("Old target calories: " + foodDiary.getTargetCalories());
+
+        int newTargetCalories = Integer.parseInt(targetCaloriesInput.getText());
         foodDiary.setTargetCalories(newTargetCalories);
+
+        System.out.println("New target calories: " + foodDiary.getTargetCalories());
     }
 
 }
