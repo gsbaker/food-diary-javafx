@@ -14,18 +14,19 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        String driverClassName = "com.mysql.cj.jdbc.Driver";
-        String databaseUrl = "jdbc:mysql://localhost:3306/FoodDiaryDatabase?useSSL=false";
-        String user = "myuser";
-        String password = "password";
+        final String driverClassName = "com.mysql.cj.jdbc.Driver";
+        final String databaseUrl = "jdbc:mysql://localhost:3306/FoodDiaryDatabase?useSSL=false";
+        final String user = "myuser";
+        final String password = "password";
 
         foodDataAccessor = new FoodDataAccessor(driverClassName, databaseUrl, user, password);
         foodDataAccessor.getFoodList();
         System.out.println(foodDataAccessor.getFoodNames());
+        System.out.println(foodDataAccessor.getCalories("Apple"));
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Food Diary");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 720, 480));
         primaryStage.show();
     }
 

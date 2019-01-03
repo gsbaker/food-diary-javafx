@@ -51,5 +51,20 @@ public class FoodDataAccessor {
         }
     }
 
+    public int getCalories(String name) throws SQLException {
+        try (
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM food");
+        ){
+
+            while (resultSet.next()) {
+                if (resultSet.getString("name").equals(name)) {
+                    return resultSet.getInt("calories");
+                }
+            }
+        }
+        return 0;
+    }
+
 
 }
