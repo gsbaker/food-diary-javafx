@@ -12,16 +12,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        final String driverClassName = "com.mysql.cj.jdbc.Driver";
-        final String databaseUrl = "jdbc:mysql://localhost:3306/FoodDiaryDatabase?useSSL=false";
-        final String user = "myuser";
-        final String password = "password";
-
-        foodDataAccessor = new FoodDataAccessor(driverClassName, databaseUrl, user, password);
-        foodDataAccessor.getFoodList();
-        System.out.println(foodDataAccessor.getFoodNames());
-        System.out.println(foodDataAccessor.getCalories("Apple"));
-
         Parent root = FXMLLoader.load(getClass().getResource("view.fxml"));
         primaryStage.setTitle("Food Diary");
         primaryStage.setScene(new Scene(root, 720, 480));

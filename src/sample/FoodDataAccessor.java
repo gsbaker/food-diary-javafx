@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +11,11 @@ public class FoodDataAccessor {
 
     private Connection connection;
 
-    public FoodDataAccessor(String driverClassName, String databaseUrl, String user, String password) throws SQLException, ClassNotFoundException {
+    public FoodDataAccessor() throws SQLException, ClassNotFoundException {
+        final String driverClassName = "com.mysql.cj.jdbc.Driver";
+        final String databaseUrl = "jdbc:mysql://localhost:3306/FoodDiaryDatabase?useSSL=false";
+        final String user = "myuser";
+        final String password = "password";
         Class.forName(driverClassName);
         connection = DriverManager.getConnection(databaseUrl, user, password);
     }
@@ -19,21 +26,21 @@ public class FoodDataAccessor {
         }
     }
 
-    public List<Food> getFoodList() throws SQLException {
+    public ObservableList<Food> getFoodObservableList() throws SQLException {
         try (
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM food");
-                ){
-            List<Food> foodList = new ArrayList<>();
+        ){
+            ObservableList<Food> foodObservableList = FXCollections.observableArrayList();
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 int calories = resultSet.getInt("calories");
                 Food food = new Food(id, name, calories);
-                foodList.add(food);
+                foodObservableList.add(food);
             }
-            return foodList;
+            return foodObservableList;
         }
     }
 
