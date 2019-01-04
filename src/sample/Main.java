@@ -6,8 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 public class Main extends Application {
 
     private FoodDataAccessor foodDataAccessor;
@@ -24,7 +22,7 @@ public class Main extends Application {
         System.out.println(foodDataAccessor.getFoodNames());
         System.out.println(foodDataAccessor.getCalories("Apple"));
 
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view.fxml"));
         primaryStage.setTitle("Food Diary");
         primaryStage.setScene(new Scene(root, 720, 480));
         primaryStage.show();
