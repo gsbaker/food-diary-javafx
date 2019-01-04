@@ -18,7 +18,7 @@ public class addFoodController {
         mealtimeChoices.addAll("Breakfast", "Lunch", "Dinner", "Snacks");
 
         mealtimeChoiceBox.setItems(mealtimeChoices);
-        mealtimeChoiceBox.setValue(Controller.getInitialValue());
+        mealtimeChoiceBox.setValue("Breakfast");
     }
 
 }

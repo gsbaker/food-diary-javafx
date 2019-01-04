@@ -15,16 +15,6 @@ public class Controller {
     public TextField targetCaloriesInput;
     FoodDiary foodDiary = new FoodDiary();
 
-    public static String getInitialValue() {
-        return initialValue;
-    }
-
-    public static void setInitialValue(String initialValue) {
-        Controller.initialValue = initialValue;
-    }
-
-    public static String initialValue;
-
     public void editTargetCalories() {
 
         System.out.println("Old target calories: " + foodDiary.getTargetCalories());
@@ -35,9 +25,8 @@ public class Controller {
         System.out.println("New target calories: " + foodDiary.getTargetCalories());
     }
 
-    public void addBreakfastEventHandler() {
+    public void addFoodEventHandler() {
         try {
-            setInitialValue("Breakfast");
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("addFoodView.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);

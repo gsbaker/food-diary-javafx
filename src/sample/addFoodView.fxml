@@ -15,11 +15,12 @@
    <children>
       <TableView prefHeight="200.0" prefWidth="200.0">
         <columns>
-          <TableColumn prefWidth="70.0" text="Food" />
-          <TableColumn prefWidth="75.0" text="Calories" />
+            <TableColumn prefWidth="193.0" text="ID" />
+          <TableColumn prefWidth="200.0" text="Food" />
+          <TableColumn prefWidth="200.0" text="Calories (cal)" />
         </columns>
       </TableView>
-      <Button mnemonicParsing="false" text="Add Foods" />
+      <Button mnemonicParsing="false" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Foods" />
       <ChoiceBox fx:id="mealtimeChoiceBox" prefWidth="150.0" />
    </children>
 </VBox>
