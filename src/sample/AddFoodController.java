@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.SQLException;
 
-public class addFoodController {
+public class AddFoodController {
 
     @FXML private ChoiceBox<String> mealtimeChoiceBox;
     @FXML private TableView<Food> tableView;

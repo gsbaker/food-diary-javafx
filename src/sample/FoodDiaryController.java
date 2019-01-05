@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Controller {
+public class FoodDiaryController {
 
     public TextField targetCaloriesInput;
     FoodDiary foodDiary = new FoodDiary();
