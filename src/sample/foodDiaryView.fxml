@@ -20,23 +20,47 @@
                      <children>
                         <Button mnemonicParsing="false" onAction="#addFoodEventHandler" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Food" />
                         <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Breakfast">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                          </content>
+                           <content>
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn fx:id="caloriesColumn" prefWidth="200.0" text="Calories (cal)" />
+                                    <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Food" />
+                                    <TableColumn fx:id="idColumn" prefWidth="193.0" text="ID" />
+                                 </columns>
+                              </TableView>
+                           </content>
                         </TitledPane>
                         <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Lunch">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn fx:id="caloriesColumn1" prefWidth="200.0" text="Calories (cal)" />
+                                    <TableColumn fx:id="nameColumn1" prefWidth="200.0" text="Food" />
+                                    <TableColumn fx:id="idColumn1" prefWidth="193.0" text="ID" />
+                                 </columns>
+                              </TableView>
                            </content>
                         </TitledPane>
                         <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Dinner">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn fx:id="caloriesColumn2" prefWidth="200.0" text="Calories (cal)" />
+                                    <TableColumn fx:id="nameColumn2" prefWidth="200.0" text="Food" />
+                                    <TableColumn fx:id="idColumn2" prefWidth="193.0" text="ID" />
+                                 </columns>
+                              </TableView>
                            </content>
                         </TitledPane>
                         <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Snacks">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn fx:id="caloriesColumn3" prefWidth="200.0" text="Calories (cal)" />
+                                    <TableColumn fx:id="nameColumn3" prefWidth="200.0" text="Food" />
+                                    <TableColumn fx:id="idColumn3" prefWidth="193.0" text="ID" />
+                                 </columns>
+                              </TableView>
                            </content>
                         </TitledPane>
                      </children>

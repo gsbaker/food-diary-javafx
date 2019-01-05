@@ -17,7 +17,6 @@ public class AddFoodController {
     @FXML private TableColumn<Food, Integer> idColumn;
     @FXML private TableColumn<Food, String> nameColumn;
     @FXML private TableColumn<Food, Integer> caloriesColumn;
-    public ObservableList<String> mealtimeChoices;
 
 
     // This method runs when the view is loaded -> so, initialize
