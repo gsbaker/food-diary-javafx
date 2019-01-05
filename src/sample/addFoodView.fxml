@@ -20,7 +20,7 @@
           <TableColumn fx:id="caloriesColumn" prefWidth="200.0" text="Calories (cal)" />
         </columns>
       </TableView>
-      <Button mnemonicParsing="false" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Foods" />
+      <Button mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Foods" />
       <ChoiceBox fx:id="mealtimeChoiceBox" prefWidth="150.0" />
    </children>
 </VBox>
