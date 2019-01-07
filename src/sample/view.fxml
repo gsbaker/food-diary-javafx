@@ -10,7 +10,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.FoodDiaryController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
   <tabs>
     <Tab text="Food Diary">
          <content>
@@ -18,47 +18,46 @@
                <content>
                   <VBox spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#addFoodEventHandler" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Food" />
                         <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Breakfast">
                            <content>
-                              <TableView fx:id="bTable" prefHeight="200.0" prefWidth="200.0">
+                              <TableView fx:id="breakfastTableView" prefHeight="200.0" prefWidth="200.0">
                                  <columns>
-                                    <TableColumn fx:id="caloriesColumn" prefWidth="200.0" text="Calories (cal)" />
-                                    <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Food" />
-                                    <TableColumn fx:id="idColumn" prefWidth="193.0" text="ID" />
+                                    <TableColumn fx:id="breakfastIdColumn" prefWidth="193.0" text="ID" />
+                                    <TableColumn fx:id="breakfastNameColumn" prefWidth="200.0" text="Food" />
+                                    <TableColumn fx:id="breakfastCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
                                  </columns>
                               </TableView>
                            </content>
                         </TitledPane>
                         <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Lunch">
                            <content>
-                              <TableView fx:id="lTable" prefHeight="200.0" prefWidth="200.0">
+                              <TableView fx:id="lunchTableView" prefHeight="200.0" prefWidth="200.0">
                                  <columns>
-                                    <TableColumn fx:id="caloriesColumn1" prefWidth="200.0" text="Calories (cal)" />
-                                    <TableColumn fx:id="nameColumn1" prefWidth="200.0" text="Food" />
-                                    <TableColumn fx:id="idColumn1" prefWidth="193.0" text="ID" />
+                                    <TableColumn fx:id="lunchIdColumn" prefWidth="193.0" text="ID" />
+                                    <TableColumn fx:id="lunchNameColumn" prefWidth="200.0" text="Food" />
+                                    <TableColumn fx:id="lunchCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
                                  </columns>
                               </TableView>
                            </content>
                         </TitledPane>
-                        <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Dinner">
+                        <TitledPane fx:id="dinnnerTableView" animated="false" prefHeight="100.0" prefWidth="680.0" text="Dinner">
                            <content>
-                              <TableView fx:id="dTable" prefHeight="200.0" prefWidth="200.0">
+                              <TableView fx:id="dinnerTableView" prefHeight="200.0" prefWidth="200.0">
                                  <columns>
-                                    <TableColumn fx:id="caloriesColumn2" prefWidth="200.0" text="Calories (cal)" />
-                                    <TableColumn fx:id="nameColumn2" prefWidth="200.0" text="Food" />
-                                    <TableColumn fx:id="idColumn2" prefWidth="193.0" text="ID" />
+                                    <TableColumn fx:id="dinnerIdColumn" prefWidth="193.0" text="ID" />
+                                    <TableColumn fx:id="dinnerNameColumn" prefWidth="200.0" text="Food" />
+                                    <TableColumn fx:id="dinnerCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
                                  </columns>
                               </TableView>
                            </content>
                         </TitledPane>
                         <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Snacks">
                            <content>
-                              <TableView fx:id="sTable" prefHeight="200.0" prefWidth="200.0">
+                              <TableView fx:id="snackTableView" prefHeight="200.0" prefWidth="200.0">
                                  <columns>
-                                    <TableColumn fx:id="caloriesColumn3" prefWidth="200.0" text="Calories (cal)" />
-                                    <TableColumn fx:id="nameColumn3" prefWidth="200.0" text="Food" />
-                                    <TableColumn fx:id="idColumn3" prefWidth="193.0" text="ID" />
+                                    <TableColumn fx:id="snackIdColumn" prefWidth="193.0" text="ID" />
+                                    <TableColumn fx:id="snackNameColumn" prefWidth="200.0" text="Food" />
+                                    <TableColumn fx:id="snackCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
                                  </columns>
                               </TableView>
                            </content>
@@ -72,6 +71,26 @@
             </ScrollPane>
          </content>
     </Tab>
+      <Tab text="Add Food">
+         <content>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <TableView fx:id="addFoodTableView" prefHeight="200.0" prefWidth="200.0">
+                     <columns>
+                        <TableColumn fx:id="addFoodIdColumn" prefWidth="193.0" text="ID" />
+                        <TableColumn fx:id="addFoodNameColumn" prefWidth="200.0" text="Food" />
+                        <TableColumn fx:id="addFoodCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
+                     </columns>
+                  </TableView>
+                  <Button mnemonicParsing="false" onAction="#addFoodsEventHandler" style="-fx-background-color: green; -fx-text-fill: white;" text="Add Foods" />
+                  <ChoiceBox fx:id="mealtimeChoiceBox" prefWidth="150.0" />
+               </children>
+            </VBox>
+         </content>
+      </Tab>
     <Tab text="Progress">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
