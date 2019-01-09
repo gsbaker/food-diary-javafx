@@ -33,7 +33,6 @@ public class Controller implements Initializable {
     @FXML private TableColumn<Food, String> snackNameColumn;
     @FXML private TableColumn<Food, Integer> snackCaloriesColumn;
 
-
     // Add Foods
     @FXML private TableView<Food> addFoodTableView;
     @FXML private TableColumn<Food, Integer> addFoodIdColumn;
@@ -66,6 +65,10 @@ public class Controller implements Initializable {
         snackIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         snackNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         snackCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+//        breakfastTableView.setItems(FXCollections.observableArrayList());
+//        lunchTableView.setItems(FXCollections.observableArrayList());
+//        dinnerTableView.setItems(FXCollections.observableArrayList());
+//        snackTableView.setItems(FXCollections.observableArrayList());
 
         // --- Add Foods Tab ---
         // Populating the Add Food Table
@@ -77,9 +80,7 @@ public class Controller implements Initializable {
             ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
             addFoodTableView.setItems(foods);
             addFoodTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         // Choosing a meal time
@@ -98,21 +99,49 @@ public class Controller implements Initializable {
         addFoods(mealtime, foodsSelected);
     }
 
-
-    private void addFoods(String mealtime, ObservableList<Food> foods) {
+    private void addFoods(String mealtime, ObservableList<Food> newFoods) {
+        ObservableList<Food> updatedFoodList = FXCollections.observableArrayList();
+        ObservableList<Food> currentFoods;
         switch (mealtime) {
             case "Breakfast":
-                breakfastTableView.setItems(foods);
+                currentFoods = foodDiary.getBreakfastFoods();
+                addFoodsHelper(newFoods, updatedFoodList, currentFoods);
+                foodDiary.setBreakfastFoods(updatedFoodList);
+                breakfastTableView.setItems(foodDiary.getBreakfastFoods());
                 break;
             case "Lunch":
-                lunchTableView.setItems(foods);
+                currentFoods = foodDiary.getLunchFoods();
+                addFoodsHelper(newFoods, updatedFoodList, currentFoods);
+                foodDiary.setLunchFoods(updatedFoodList);
+                lunchTableView.setItems(foodDiary.getLunchFoods());
                 break;
             case "Dinner":
-                dinnerTableView.setItems(foods);
+                currentFoods = foodDiary.getDinnerFoods();
+                addFoodsHelper(newFoods, updatedFoodList, currentFoods);
+                foodDiary.setDinnerFoods(updatedFoodList);
+                dinnerTableView.setItems(foodDiary.getDinnerFoods());
                 break;
             case "Snacks":
-                snackTableView.setItems(foods);
+                currentFoods = foodDiary.getSnackFoods();
+                addFoodsHelper(newFoods, updatedFoodList, currentFoods);
+                foodDiary.setSnackFoods(updatedFoodList);
+                snackTableView.setItems(foodDiary.getSnackFoods());
                 break;
+        }
+    }
+
+    // Creates the updated food Observable list
+    private void addFoodsHelper(ObservableList<Food> newFoods, ObservableList<Food> foodsToAdd, ObservableList<Food> currentFoods) {
+        if (currentFoods == null) {
+            foodsToAdd.addAll(newFoods);
+        }
+        else {
+            foodsToAdd.addAll(currentFoods);
+            for (Food food : newFoods) {
+                if (!currentFoods.contains(food)) {
+                    foodsToAdd.add(food);
+                }
+            }
         }
     }
 

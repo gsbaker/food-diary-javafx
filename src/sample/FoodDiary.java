@@ -1,15 +1,48 @@
 package sample;
 
+import javafx.collections.ObservableList;
+
 import java.util.List;
 
 public class FoodDiary {
 
     private int targetCalories;
-    private List<Food> breakfastFoods;
-    private List<Food> lunchFoods;
-    private List<Food> dinnerFoods;
-    private List<Food> snackFoods;
+    private ObservableList<Food> breakfastFoods;
+    private ObservableList<Food> lunchFoods;
+    private ObservableList<Food> dinnerFoods;
+    private ObservableList<Food> snackFoods;
 
+    public ObservableList<Food> getBreakfastFoods() {
+        return breakfastFoods;
+    }
+
+    public void setBreakfastFoods(ObservableList<Food> breakfastFoods) {
+        this.breakfastFoods = breakfastFoods;
+    }
+
+    public ObservableList<Food> getLunchFoods() {
+        return lunchFoods;
+    }
+
+    public void setLunchFoods(ObservableList<Food> lunchFoods) {
+        this.lunchFoods = lunchFoods;
+    }
+
+    public ObservableList<Food> getDinnerFoods() {
+        return dinnerFoods;
+    }
+
+    public void setDinnerFoods(ObservableList<Food> dinnerFoods) {
+        this.dinnerFoods = dinnerFoods;
+    }
+
+    public ObservableList<Food> getSnackFoods() {
+        return snackFoods;
+    }
+
+    public void setSnackFoods(ObservableList<Food> snackFoods) {
+        this.snackFoods = snackFoods;
+    }
 
     public int getTargetCalories() {
         return targetCalories;
@@ -19,35 +52,5 @@ public class FoodDiary {
         this.targetCalories = targetCalories;
     }
 
-    public List<Food> getBreakfastFoods() {
-        return breakfastFoods;
-    }
 
-    public void setBreakfastFoods(List<Food> breakfastFoods) {
-        this.breakfastFoods = breakfastFoods;
-    }
-
-    public List<Food> getLunchFoods() {
-        return lunchFoods;
-    }
-
-    public void setLunchFoods(List<Food> lunchFoods) {
-        this.lunchFoods = lunchFoods;
-    }
-
-    public List<Food> getDinnerFoods() {
-        return dinnerFoods;
-    }
-
-    public void setDinnerFoods(List<Food> dinnerFoods) {
-        this.dinnerFoods = dinnerFoods;
-    }
-
-    public List<Food> getSnackFoods() {
-        return snackFoods;
-    }
-
-    public void setSnackFoods(List<Food> snackFoods) {
-        this.snackFoods = snackFoods;
-    }
 }
