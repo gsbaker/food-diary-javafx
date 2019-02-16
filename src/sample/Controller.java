@@ -137,11 +137,7 @@ public class Controller implements Initializable {
         }
         else {
             foodsToAdd.addAll(currentFoods);
-            for (Food food : newFoods) {
-                if (!currentFoods.contains(food)) {
-                    foodsToAdd.add(food);
-                }
-            }
+            foodsToAdd.addAll(newFoods);
         }
     }
 
