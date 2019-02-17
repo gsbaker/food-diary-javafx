@@ -20,22 +20,17 @@ public class Controller implements Initializable {
     @FXML private TableView<Food> lunchTableView;
     @FXML private TableView<Food> dinnerTableView;
     @FXML private TableView<Food> snackTableView;
-    @FXML private TableColumn<Food, Integer> breakfastIdColumn;
     @FXML private TableColumn<Food, String> breakfastNameColumn;
     @FXML private TableColumn<Food, Integer> breakfastCaloriesColumn;
-    @FXML private TableColumn<Food, Integer> lunchIdColumn;
     @FXML private TableColumn<Food, String> lunchNameColumn;
     @FXML private TableColumn<Food, Integer> lunchCaloriesColumn;
-    @FXML private TableColumn<Food, Integer> dinnerIdColumn;
     @FXML private TableColumn<Food, String> dinnerNameColumn;
     @FXML private TableColumn<Food, Integer> dinnerCaloriesColumn;
-    @FXML private TableColumn<Food, Integer> snackIdColumn;
     @FXML private TableColumn<Food, String> snackNameColumn;
     @FXML private TableColumn<Food, Integer> snackCaloriesColumn;
 
     // Add Foods
     @FXML private TableView<Food> addFoodTableView;
-    @FXML private TableColumn<Food, Integer> addFoodIdColumn;
     @FXML private TableColumn<Food, String> addFoodNameColumn;
     @FXML private TableColumn<Food, Integer> addFoodCaloriesColumn;
     @FXML private ChoiceBox<String> mealtimeChoiceBox;
@@ -53,16 +48,17 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // --- Food Diary Tab ---
-        breakfastIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        breakfastTableView.setPlaceholder(new Label("To add foods, go to Add Food"));
+        lunchTableView.setPlaceholder(new Label("To add foods, go to Add Food"));
+        dinnerTableView.setPlaceholder(new Label("To add foods, go to Add Food"));
+        snackTableView.setPlaceholder(new Label("To add foods, go to Add Food"));
+
         breakfastNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         breakfastCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
-        lunchIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         lunchNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         lunchCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
-        dinnerIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         dinnerNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         dinnerCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
-        snackIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         snackNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         snackCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
 //        breakfastTableView.setItems(FXCollections.observableArrayList());
@@ -72,7 +68,7 @@ public class Controller implements Initializable {
 
         // --- Add Foods Tab ---
         // Populating the Add Food Table
-        addFoodIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
         addFoodNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         addFoodCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
         try {
