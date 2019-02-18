@@ -1,3 +1,7 @@
+.table-view {
+    -fx-min-height: 120px;
+}
+
 .table-column {
     -fx-pref-width: 339px;
 }

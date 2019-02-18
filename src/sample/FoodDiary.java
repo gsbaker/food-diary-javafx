@@ -2,46 +2,68 @@ package sample;
 
 import javafx.collections.ObservableList;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class FoodDiary {
+public class FoodDiary implements Serializable {
 
     private int targetCalories;
-    private ObservableList<Food> breakfastFoods;
-    private ObservableList<Food> lunchFoods;
-    private ObservableList<Food> dinnerFoods;
-    private ObservableList<Food> snackFoods;
+    private int totalCalories;
+    private transient ObservableList<Food> breakfastFoodsObservableList;
+    private transient ObservableList<Food> lunchFoodsObservableList;
+    private transient ObservableList<Food> dinnerFoodsObservableList;
+    private transient ObservableList<Food> snackFoodsObservableList;
+    private ArrayList<Food> breakfastFoodsList;
+    private ArrayList<Food> lunchFoodsList;
+    private ArrayList<Food> dinnerFoodsList;
+    private ArrayList<Food> SnackFoodsList;
+    private transient boolean changesMade;
 
-    public ObservableList<Food> getBreakfastFoods() {
-        return breakfastFoods;
+
+
+    public int getTotalCalories() {
+        return totalCalories;
     }
 
-    public void setBreakfastFoods(ObservableList<Food> breakfastFoods) {
-        this.breakfastFoods = breakfastFoods;
+    public void setTotalCalories(int totalCalories) {
+        this.totalCalories = totalCalories;
     }
 
-    public ObservableList<Food> getLunchFoods() {
-        return lunchFoods;
+    public void addToTotalCalories(int amount) {
+        this.totalCalories += amount;
     }
 
-    public void setLunchFoods(ObservableList<Food> lunchFoods) {
-        this.lunchFoods = lunchFoods;
+    public ObservableList<Food> getBreakfastFoodsObservableList() {
+        return breakfastFoodsObservableList;
     }
 
-    public ObservableList<Food> getDinnerFoods() {
-        return dinnerFoods;
+    public void setBreakfastFoodsObservableList(ObservableList<Food> breakfastFoodsObservableList) {
+        this.breakfastFoodsObservableList = breakfastFoodsObservableList;
     }
 
-    public void setDinnerFoods(ObservableList<Food> dinnerFoods) {
-        this.dinnerFoods = dinnerFoods;
+    public ObservableList<Food> getLunchFoodsObservableList() {
+        return lunchFoodsObservableList;
     }
 
-    public ObservableList<Food> getSnackFoods() {
-        return snackFoods;
+    public void setLunchFoodsObservableList(ObservableList<Food> lunchFoodsObservableList) {
+        this.lunchFoodsObservableList = lunchFoodsObservableList;
     }
 
-    public void setSnackFoods(ObservableList<Food> snackFoods) {
-        this.snackFoods = snackFoods;
+    public ObservableList<Food> getDinnerFoodsObservableList() {
+        return dinnerFoodsObservableList;
+    }
+
+    public void setDinnerFoodsObservableList(ObservableList<Food> dinnerFoodsObservableList) {
+        this.dinnerFoodsObservableList = dinnerFoodsObservableList;
+    }
+
+    public ObservableList<Food> getSnackFoodsObservableList() {
+        return snackFoodsObservableList;
+    }
+
+    public void setSnackFoodsObservableList(ObservableList<Food> snackFoodsObservableList) {
+        this.snackFoodsObservableList = snackFoodsObservableList;
     }
 
     public int getTargetCalories() {
@@ -50,6 +72,46 @@ public class FoodDiary {
 
     public void setTargetCalories(int targetCalories) {
         this.targetCalories = targetCalories;
+    }
+
+    public ArrayList<Food> getBreakfastFoodsList() {
+        return breakfastFoodsList;
+    }
+
+    public void setBreakfastFoodsList(ArrayList<Food> breakfastFoodsList) {
+        this.breakfastFoodsList = breakfastFoodsList;
+    }
+
+    public ArrayList<Food> getLunchFoodsList() {
+        return lunchFoodsList;
+    }
+
+    public void setLunchFoodsList(ArrayList<Food> lunchFoodsList) {
+        this.lunchFoodsList = lunchFoodsList;
+    }
+
+    public ArrayList<Food> getDinnerFoodsList() {
+        return dinnerFoodsList;
+    }
+
+    public void setDinnerFoodsList(ArrayList<Food> dinnerFoodsList) {
+        this.dinnerFoodsList = dinnerFoodsList;
+    }
+
+    public ArrayList<Food> getSnackFoodsList() {
+        return SnackFoodsList;
+    }
+
+    public void setSnackFoodsList(ArrayList<Food> snackFoodsList) {
+        SnackFoodsList = snackFoodsList;
+    }
+
+    public boolean isChangesMade() {
+        return changesMade;
+    }
+
+    public void setChangesMade(boolean changesMade) {
+        this.changesMade = changesMade;
     }
 
 

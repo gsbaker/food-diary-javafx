@@ -7,8 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -40,7 +42,7 @@ public class Controller implements Initializable {
 
     // Constructor
     public Controller() {
-        this.foodDiary = new FoodDiary();
+
     }
 
     // Initialize
@@ -61,10 +63,31 @@ public class Controller implements Initializable {
         dinnerCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
         snackNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         snackCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
-//        breakfastTableView.setItems(FXCollections.observableArrayList());
-//        lunchTableView.setItems(FXCollections.observableArrayList());
-//        dinnerTableView.setItems(FXCollections.observableArrayList());
-//        snackTableView.setItems(FXCollections.observableArrayList());
+
+        // Reading in a saved food diary
+        if (readFoodDiary() != null) {
+            foodDiary = readFoodDiary();
+            if (foodDiary.getBreakfastFoodsList() != null) {
+                foodDiary.setBreakfastFoodsObservableList(FXCollections.observableList(foodDiary.getBreakfastFoodsList()));
+                breakfastTableView.setItems(foodDiary.getBreakfastFoodsObservableList());
+            }
+            if (foodDiary.getLunchFoodsList() != null) {
+                foodDiary.setLunchFoodsObservableList(FXCollections.observableList(foodDiary.getLunchFoodsList()));
+                lunchTableView.setItems(foodDiary.getLunchFoodsObservableList());
+            }
+            if (foodDiary.getDinnerFoodsList() != null) {
+                foodDiary.setDinnerFoodsObservableList(FXCollections.observableList(foodDiary.getDinnerFoodsList()));
+                dinnerTableView.setItems(foodDiary.getDinnerFoodsObservableList());
+            }
+            if (foodDiary.getSnackFoodsList() != null) {
+                foodDiary.setSnackFoodsObservableList(FXCollections.observableList(foodDiary.getSnackFoodsList()));
+                snackTableView.setItems(foodDiary.getSnackFoodsObservableList());
+            }
+        }
+        else {
+            // TODO: put a welcome screen where the user can set target calories etc.
+            this.foodDiary = new FoodDiary();
+        }
 
         // --- Add Foods Tab ---
         // Populating the Add Food Table
@@ -87,6 +110,44 @@ public class Controller implements Initializable {
     }
 
 
+    // --- Methods relating to Food Diary ---
+
+    public void saveEventHandler() {
+
+        if (foodDiary.getBreakfastFoodsObservableList() != null) {
+            foodDiary.setBreakfastFoodsList(new ArrayList<>(foodDiary.getBreakfastFoodsObservableList()));
+        }
+        if (foodDiary.getLunchFoodsObservableList() != null) {
+            foodDiary.setLunchFoodsList(new ArrayList<>(foodDiary.getLunchFoodsObservableList()));
+        }
+        if (foodDiary.getDinnerFoodsObservableList() != null) {
+            foodDiary.setDinnerFoodsList(new ArrayList<>(foodDiary.getDinnerFoodsObservableList()));
+        }
+        if (foodDiary.getSnackFoodsObservableList() != null) {
+            foodDiary.setSnackFoodsList(new ArrayList<>(foodDiary.getSnackFoodsObservableList()));
+        }
+
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream("FoodDiarySaveFile.ser");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(foodDiary);
+            objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private FoodDiary readFoodDiary() {
+        try {
+            FileInputStream fileInputStream = new FileInputStream("FoodDiarySaveFile.ser");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            return (FoodDiary) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // --- Methods relating to Add Food ---
     public void addFoodsEventHandler() {
         ObservableList<Food> foodsSelected = FXCollections.observableArrayList();
@@ -100,28 +161,28 @@ public class Controller implements Initializable {
         ObservableList<Food> currentFoods;
         switch (mealtime) {
             case "Breakfast":
-                currentFoods = foodDiary.getBreakfastFoods();
+                currentFoods = foodDiary.getBreakfastFoodsObservableList();
                 addFoodsHelper(newFoods, updatedFoodList, currentFoods);
-                foodDiary.setBreakfastFoods(updatedFoodList);
-                breakfastTableView.setItems(foodDiary.getBreakfastFoods());
+                foodDiary.setBreakfastFoodsObservableList(updatedFoodList);
+                breakfastTableView.setItems(foodDiary.getBreakfastFoodsObservableList());
                 break;
             case "Lunch":
-                currentFoods = foodDiary.getLunchFoods();
+                currentFoods = foodDiary.getLunchFoodsObservableList();
                 addFoodsHelper(newFoods, updatedFoodList, currentFoods);
-                foodDiary.setLunchFoods(updatedFoodList);
-                lunchTableView.setItems(foodDiary.getLunchFoods());
+                foodDiary.setLunchFoodsObservableList(updatedFoodList);
+                lunchTableView.setItems(foodDiary.getLunchFoodsObservableList());
                 break;
             case "Dinner":
-                currentFoods = foodDiary.getDinnerFoods();
+                currentFoods = foodDiary.getDinnerFoodsObservableList();
                 addFoodsHelper(newFoods, updatedFoodList, currentFoods);
-                foodDiary.setDinnerFoods(updatedFoodList);
-                dinnerTableView.setItems(foodDiary.getDinnerFoods());
+                foodDiary.setDinnerFoodsObservableList(updatedFoodList);
+                dinnerTableView.setItems(foodDiary.getDinnerFoodsObservableList());
                 break;
             case "Snacks":
-                currentFoods = foodDiary.getSnackFoods();
+                currentFoods = foodDiary.getSnackFoodsObservableList();
                 addFoodsHelper(newFoods, updatedFoodList, currentFoods);
-                foodDiary.setSnackFoods(updatedFoodList);
-                snackTableView.setItems(foodDiary.getSnackFoods());
+                foodDiary.setSnackFoodsObservableList(updatedFoodList);
+                snackTableView.setItems(foodDiary.getSnackFoodsObservableList());
                 break;
         }
     }
@@ -130,6 +191,9 @@ public class Controller implements Initializable {
     private void addFoodsHelper(ObservableList<Food> newFoods, ObservableList<Food> foodsToAdd, ObservableList<Food> currentFoods) {
         if (currentFoods == null) {
             foodsToAdd.addAll(newFoods);
+            for (Food food: foodsToAdd) {
+                foodDiary.addToTotalCalories(food.getCalories());
+            }
         }
         else {
             foodsToAdd.addAll(currentFoods);
@@ -138,15 +202,13 @@ public class Controller implements Initializable {
     }
 
 
-    // --- Methods relating to settings ---
-    public void editTargetCalories() {
 
-        System.out.println("Old target calories: " + foodDiary.getTargetCalories());
+    // --- Methods relating to settings ---
+    public void setTargetCaloriesEventHandler() {
 
         int newTargetCalories = Integer.parseInt(targetCaloriesInput.getText());
         foodDiary.setTargetCalories(newTargetCalories);
 
-        System.out.println("New target calories: " + foodDiary.getTargetCalories());
     }
 
 
