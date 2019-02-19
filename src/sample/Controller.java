@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -44,10 +45,8 @@ public class Controller implements Initializable {
     @FXML private Label remainingCaloriesLabel;
     @FXML private ProgressBar progressBar;
 
-
     // Settings
     @FXML private TextField targetCaloriesInput;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,30 +68,39 @@ public class Controller implements Initializable {
 
         // Reading in a saved food diary
         if (readFoodDiary() != null) {
+            LocalDate currentDate = LocalDate.now();
             foodDiary = readFoodDiary();
-            if (foodDiary.getBreakfastFoodsList() != null) {
-                foodDiary.setBreakfastFoodsObservableList(FXCollections.observableList(foodDiary.getBreakfastFoodsList()));
-                breakfastTableView.setItems(foodDiary.getBreakfastFoodsObservableList());
+            if (foodDiary.getEstimatedDate().compareTo(currentDate) == 0) {
+                if (foodDiary.getBreakfastFoodsList() != null) {
+                    foodDiary.setBreakfastFoodsObservableList(FXCollections.observableList(foodDiary.getBreakfastFoodsList()));
+                    breakfastTableView.setItems(foodDiary.getBreakfastFoodsObservableList());
+                }
+                if (foodDiary.getLunchFoodsList() != null) {
+                    foodDiary.setLunchFoodsObservableList(FXCollections.observableList(foodDiary.getLunchFoodsList()));
+                    lunchTableView.setItems(foodDiary.getLunchFoodsObservableList());
+                }
+                if (foodDiary.getDinnerFoodsList() != null) {
+                    foodDiary.setDinnerFoodsObservableList(FXCollections.observableList(foodDiary.getDinnerFoodsList()));
+                    dinnerTableView.setItems(foodDiary.getDinnerFoodsObservableList());
+                }
+                if (foodDiary.getSnackFoodsList() != null) {
+                    foodDiary.setSnackFoodsObservableList(FXCollections.observableList(foodDiary.getSnackFoodsList()));
+                    snackTableView.setItems(foodDiary.getSnackFoodsObservableList());
+                }
             }
-            if (foodDiary.getLunchFoodsList() != null) {
-                foodDiary.setLunchFoodsObservableList(FXCollections.observableList(foodDiary.getLunchFoodsList()));
-                lunchTableView.setItems(foodDiary.getLunchFoodsObservableList());
-            }
-            if (foodDiary.getDinnerFoodsList() != null) {
-                foodDiary.setDinnerFoodsObservableList(FXCollections.observableList(foodDiary.getDinnerFoodsList()));
-                dinnerTableView.setItems(foodDiary.getDinnerFoodsObservableList());
-            }
-            if (foodDiary.getSnackFoodsList() != null) {
-                foodDiary.setSnackFoodsObservableList(FXCollections.observableList(foodDiary.getSnackFoodsList()));
-                snackTableView.setItems(foodDiary.getSnackFoodsObservableList());
+            else {
+                foodDiary = new FoodDiary();
+                foodDiary.setEstimatedDate(currentDate);
             }
         }
         else {
             // TODO: put a welcome screen where the user can set target calories etc.
-            this.foodDiary = new FoodDiary();
+            foodDiary = new FoodDiary();
+            foodDiary.setEstimatedDate(LocalDate.now());
         }
 
         foodDiary.setChangesMade(false);
+//        foodDiary.setEstimatedDate(LocalDate.now());
 
         // --- Add Foods Tab ---
         // Populating the Add Food Table

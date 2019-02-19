@@ -3,6 +3,8 @@ package sample;
 import javafx.collections.ObservableList;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class FoodDiary implements Serializable {
     private ArrayList<Food> dinnerFoodsList;
     private ArrayList<Food> SnackFoodsList;
     private transient boolean changesMade;
-
+    private LocalDate estimatedDate;
 
 
     public int getTotalCalories() {
@@ -113,6 +115,15 @@ public class FoodDiary implements Serializable {
     public void setChangesMade(boolean changesMade) {
         this.changesMade = changesMade;
     }
+
+    public LocalDate getEstimatedDate() {
+        return estimatedDate;
+    }
+
+    public void setEstimatedDate(LocalDate estimatedDate) {
+        this.estimatedDate = estimatedDate;
+    }
+
 
 
 }
