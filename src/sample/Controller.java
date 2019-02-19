@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Font;
 
 import java.io.*;
 import java.net.URL;
@@ -37,15 +38,17 @@ public class Controller implements Initializable {
     @FXML private TableColumn<Food, Integer> addFoodCaloriesColumn;
     @FXML private ChoiceBox<String> mealtimeChoiceBox;
 
+    // Progress
+    @FXML private Label totalCaloriesLabel;
+    @FXML private Label targetCaloriesLabel;
+    @FXML private Label remainingCaloriesLabel;
+    @FXML private ProgressBar progressBar;
+
+
     // Settings
     @FXML private TextField targetCaloriesInput;
 
-    // Constructor
-    public Controller() {
 
-    }
-
-    // Initialize
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -89,6 +92,8 @@ public class Controller implements Initializable {
             this.foodDiary = new FoodDiary();
         }
 
+        foodDiary.setChangesMade(false);
+
         // --- Add Foods Tab ---
         // Populating the Add Food Table
 
@@ -107,13 +112,26 @@ public class Controller implements Initializable {
         mealtimeChoices.addAll("Breakfast", "Lunch", "Dinner", "Snacks");
         mealtimeChoiceBox.setItems(mealtimeChoices);
         mealtimeChoiceBox.setValue("Breakfast");
+
+        // --- Progress Tab ---
+        Font font = new Font(20);
+        totalCaloriesLabel.setFont(font);
+        targetCaloriesLabel.setFont(font);
+        remainingCaloriesLabel.setFont(font);
+        totalCaloriesLabel.setText("Total Calories: " + foodDiary.getTotalCalories());
+        targetCaloriesLabel.setText("Target Calories: " + foodDiary.getTargetCalories());
+        remainingCaloriesLabel.setText("Remaining Calories: " + (foodDiary.getTargetCalories() - foodDiary.getTotalCalories()));
+        double progress = foodDiary.getTotalCalories() / (double)foodDiary.getTargetCalories();
+//        System.out.println(foodDiary.getTotalCalories());
+//        System.out.println(foodDiary.getTargetCalories());
+//        System.out.println(progress);
+        progressBar.setProgress(progress);
     }
 
 
     // --- Methods relating to Food Diary ---
 
     public void saveEventHandler() {
-
         if (foodDiary.getBreakfastFoodsObservableList() != null) {
             foodDiary.setBreakfastFoodsList(new ArrayList<>(foodDiary.getBreakfastFoodsObservableList()));
         }
@@ -185,6 +203,7 @@ public class Controller implements Initializable {
                 snackTableView.setItems(foodDiary.getSnackFoodsObservableList());
                 break;
         }
+        foodDiary.setChangesMade(true);
     }
 
     // Creates the updated food Observable list
@@ -198,17 +217,21 @@ public class Controller implements Initializable {
         else {
             foodsToAdd.addAll(currentFoods);
             foodsToAdd.addAll(newFoods);
+            for (Food food: newFoods) {
+                foodDiary.addToTotalCalories(food.getCalories());
+            }
         }
     }
 
 
+    // --- Methods relating to progress ---
+
 
     // --- Methods relating to settings ---
     public void setTargetCaloriesEventHandler() {
-
         int newTargetCalories = Integer.parseInt(targetCaloriesInput.getText());
         foodDiary.setTargetCalories(newTargetCalories);
-
+        foodDiary.setChangesMade(true);
     }
 
 
