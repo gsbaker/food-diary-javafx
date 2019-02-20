@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 
 import java.io.Serializable;
@@ -22,7 +25,11 @@ public class FoodDiary implements Serializable {
     private ArrayList<Food> SnackFoodsList;
     private transient boolean changesMade;
     private LocalDate estimatedDate;
+    private transient DoubleProperty barUpdater;
 
+    public FoodDiary() {
+        this.targetCalories = 2000;
+    }
 
     public int getTotalCalories() {
         return totalCalories;
@@ -124,6 +131,22 @@ public class FoodDiary implements Serializable {
         this.estimatedDate = estimatedDate;
     }
 
+    public double getBarUpdater() {
+        if (barUpdater != null) {
+            return barUpdater.get();
+        }
+        return 0;
+    }
 
+    public void setBarUpdater(double barUpdater) {
+        this.barUpdaterProperty().set(barUpdater);
+    }
+
+    public DoubleProperty barUpdaterProperty() {
+        if (barUpdater == null) {
+            barUpdater = new SimpleDoubleProperty(0);
+        }
+        return barUpdater;
+    }
 
 }

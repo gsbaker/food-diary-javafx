@@ -126,14 +126,8 @@ public class Controller implements Initializable {
         totalCaloriesLabel.setFont(font);
         targetCaloriesLabel.setFont(font);
         remainingCaloriesLabel.setFont(font);
-        totalCaloriesLabel.setText("Total Calories: " + foodDiary.getTotalCalories());
-        targetCaloriesLabel.setText("Target Calories: " + foodDiary.getTargetCalories());
-        remainingCaloriesLabel.setText("Remaining Calories: " + (foodDiary.getTargetCalories() - foodDiary.getTotalCalories()));
-        double progress = foodDiary.getTotalCalories() / (double)foodDiary.getTargetCalories();
-//        System.out.println(foodDiary.getTotalCalories());
-//        System.out.println(foodDiary.getTargetCalories());
-//        System.out.println(progress);
-        progressBar.setProgress(progress);
+        updateProgress();
+        progressBar.progressProperty().bind(foodDiary.barUpdaterProperty());
     }
 
 
@@ -220,6 +214,7 @@ public class Controller implements Initializable {
             foodsToAdd.addAll(newFoods);
             for (Food food: foodsToAdd) {
                 foodDiary.addToTotalCalories(food.getCalories());
+                updateProgress();
             }
         }
         else {
@@ -227,18 +222,28 @@ public class Controller implements Initializable {
             foodsToAdd.addAll(newFoods);
             for (Food food: newFoods) {
                 foodDiary.addToTotalCalories(food.getCalories());
+                updateProgress();
             }
         }
     }
 
 
     // --- Methods relating to progress ---
+    private void updateProgress() {
+        totalCaloriesLabel.setText("Total Calories: " + foodDiary.getTotalCalories());
+        targetCaloriesLabel.setText("Target Calories: " + foodDiary.getTargetCalories());
+        remainingCaloriesLabel.setText("Remaining Calories: " + (foodDiary.getTargetCalories() - foodDiary.getTotalCalories()));
+        foodDiary.setBarUpdater((foodDiary.getTotalCalories() / (double)foodDiary.getTargetCalories()));
 
+    }
 
     // --- Methods relating to settings ---
     public void setTargetCaloriesEventHandler() {
         int newTargetCalories = Integer.parseInt(targetCaloriesInput.getText());
         foodDiary.setTargetCalories(newTargetCalories);
+        targetCaloriesLabel.setText("Target Calories: " + foodDiary.getTargetCalories());
+        remainingCaloriesLabel.setText("Remaining Calories: " + (foodDiary.getTargetCalories() - foodDiary.getTotalCalories()));
+        foodDiary.setBarUpdater((foodDiary.getTotalCalories() / (double)foodDiary.getTargetCalories()));
         foodDiary.setChangesMade(true);
     }
 
