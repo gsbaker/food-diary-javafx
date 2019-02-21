@@ -19,7 +19,6 @@
                <content>
                   <VBox spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#saveEventHandler" text="Save" />
                         <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Breakfast">
                            <content>
                               <TableView fx:id="breakfastTableView" prefWidth="0.0">

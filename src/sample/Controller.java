@@ -160,7 +160,7 @@ public class Controller implements Initializable {
 
     // --- Methods relating to Food Diary ---
 
-    public void saveEventHandler() {
+    private void save() {
         if (foodDiary.getBreakfastFoodsObservableList() != null) {
             foodDiary.setBreakfastFoodsList(new ArrayList<>(foodDiary.getBreakfastFoodsObservableList()));
         }
@@ -272,6 +272,14 @@ public class Controller implements Initializable {
         foodDiary.setBarUpdater((foodDiary.getTotalCalories() / (double)foodDiary.getTargetCalories()));
         foodDiary.setChangesMade(true);
     }
+
+
+    public void handleClose() {
+        if (foodDiary.isChangesMade()) {
+            save();
+        }
+    }
+
 
 
 }
