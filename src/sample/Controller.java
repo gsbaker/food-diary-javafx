@@ -4,6 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
@@ -14,6 +17,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Controller implements Initializable {
 
@@ -44,6 +48,9 @@ public class Controller implements Initializable {
     @FXML private Label targetCaloriesLabel;
     @FXML private Label remainingCaloriesLabel;
     @FXML private ProgressBar progressBar;
+    @FXML private LineChart<Number, Number> lineChart;
+    @FXML private NumberAxis xAxis;
+
 
     // Settings
     @FXML private TextField targetCaloriesInput;
@@ -91,8 +98,12 @@ public class Controller implements Initializable {
             else {
                 foodDiary = new FoodDiary();
                 foodDiary.setEstimatedDate(currentDate);
+                FoodDiary savedFoodDiary = readFoodDiary();
+                foodDiary.setTargetCalories(savedFoodDiary.getTargetCalories());
+                foodDiary.addToSavedCalories(savedFoodDiary.getTotalCalories());
             }
         }
+        // Create a completely new Food Diary
         else {
             // TODO: put a welcome screen where the user can set target calories etc.
             foodDiary = new FoodDiary();
@@ -128,6 +139,22 @@ public class Controller implements Initializable {
         remainingCaloriesLabel.setFont(font);
         updateProgress();
         progressBar.progressProperty().bind(foodDiary.barUpdaterProperty());
+        XYChart.Series<Number, Number> targetSeries = new XYChart.Series<>();
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        targetSeries.setName("Target Calories");
+        series.setName("Your Progress");
+        for (int i = 0; i <= 30; i ++) {
+            targetSeries.getData().add(new XYChart.Data<>(i, foodDiary.getTargetCalories()));
+            series.getData().add(new XYChart.Data<>(i, ThreadLocalRandom.current().nextInt(1500, 2501)));
+        }
+        lineChart.getData().add(targetSeries);
+        lineChart.getData().add(series);
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(0);
+        xAxis.setUpperBound(30);
+        xAxis.setTickUnit(1);
+
+
     }
 
 
@@ -234,7 +261,6 @@ public class Controller implements Initializable {
         targetCaloriesLabel.setText("Target Calories: " + foodDiary.getTargetCalories());
         remainingCaloriesLabel.setText("Remaining Calories: " + (foodDiary.getTargetCalories() - foodDiary.getTotalCalories()));
         foodDiary.setBarUpdater((foodDiary.getTotalCalories() / (double)foodDiary.getTargetCalories()));
-
     }
 
     // --- Methods relating to settings ---

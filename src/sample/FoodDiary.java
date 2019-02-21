@@ -26,6 +26,8 @@ public class FoodDiary implements Serializable {
     private transient boolean changesMade;
     private LocalDate estimatedDate;
     private transient DoubleProperty barUpdater;
+    private ArrayList<Integer> savedCalories;
+
 
     public FoodDiary() {
         this.targetCalories = 2000;
@@ -147,6 +149,18 @@ public class FoodDiary implements Serializable {
             barUpdater = new SimpleDoubleProperty(0);
         }
         return barUpdater;
+    }
+
+    public ArrayList<Integer> getSavedCalories() {
+        return savedCalories;
+    }
+
+    public void setSavedCalories(ArrayList<Integer> savedCalories) {
+        this.savedCalories = savedCalories;
+    }
+
+    public void addToSavedCalories(int amount) {
+        this.savedCalories.add(amount);
     }
 
 }

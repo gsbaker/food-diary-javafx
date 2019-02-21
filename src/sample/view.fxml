@@ -107,11 +107,19 @@
                         <VBox prefWidth="360.0">
                            <children>
                               <ProgressBar fx:id="progressBar" prefWidth="200.0" progress="0.0" />
-                              <Label text="Progress Bar" />
+                              <Label text="Today's Progress" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
+                  <LineChart fx:id="lineChart" title="Last 30 days">
+                    <xAxis>
+                       <NumberAxis label="Day" side="BOTTOM" fx:id="xAxis" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis label="Calories" side="LEFT" />
+                    </yAxis>
+                  </LineChart>
                </children>
             </VBox>
          </content>
