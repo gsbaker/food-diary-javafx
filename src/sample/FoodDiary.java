@@ -45,6 +45,10 @@ public class FoodDiary implements Serializable {
         this.totalCalories += amount;
     }
 
+    public void decreaseTotalCalories(int amount) {
+        this.totalCalories -= amount;
+    }
+
     public ObservableList<Food> getBreakfastFoodsObservableList() {
         return breakfastFoodsObservableList;
     }

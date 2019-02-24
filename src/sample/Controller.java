@@ -195,6 +195,49 @@ public class Controller implements Initializable {
         return null;
     }
 
+    public void removeEventHandler() {
+        ObservableList<Food> selectedBreakfastItems = breakfastTableView.getSelectionModel().getSelectedItems();
+        ObservableList<Food> selectedLunchItems = lunchTableView.getSelectionModel().getSelectedItems();
+        ObservableList<Food> selectedDinnerItems = dinnerTableView.getSelectionModel().getSelectedItems();
+        ObservableList<Food> selectedSnackItems = snackTableView.getSelectionModel().getSelectedItems();
+
+        ArrayList<Food> breakfastList = new ArrayList<>(selectedBreakfastItems);
+        ArrayList<Food> lunchList = new ArrayList<>(selectedLunchItems);
+        ArrayList<Food> dinnerList = new ArrayList<>(selectedDinnerItems);
+        ArrayList<Food> snackList = new ArrayList<>(selectedSnackItems);
+
+        breakfastList.forEach(row -> {
+            breakfastTableView.getItems().remove(row);
+            foodDiary.getBreakfastFoodsObservableList().remove(row);
+            foodDiary.getBreakfastFoodsList().remove(row);
+            foodDiary.decreaseTotalCalories(row.getCalories());
+        });
+
+        lunchList.forEach(row -> {
+            lunchTableView.getItems().remove(row);
+            foodDiary.getLunchFoodsObservableList().remove(row);
+            foodDiary.getLunchFoodsList().remove(row);
+            foodDiary.decreaseTotalCalories(row.getCalories());
+        });
+
+        dinnerList.forEach(row -> {
+            dinnerTableView.getItems().remove(row);
+            foodDiary.getDinnerFoodsObservableList().remove(row);
+            foodDiary.getDinnerFoodsList().remove(row);
+            foodDiary.decreaseTotalCalories(row.getCalories());
+        });
+
+        snackList.forEach(row -> {
+            snackTableView.getItems().remove(row);
+            foodDiary.getSnackFoodsObservableList().remove(row);
+            foodDiary.getSnackFoodsList().remove(row);
+            foodDiary.decreaseTotalCalories(row.getCalories());
+        });
+
+        updateProgress();
+        foodDiary.setChangesMade(true);
+    }
+
     // --- Methods relating to Add Food ---
     public void addFoodsEventHandler() {
         ObservableList<Food> foodsSelected = FXCollections.observableArrayList();
