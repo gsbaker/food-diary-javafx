@@ -1,14 +1,97 @@
+.root {
+    -fx-accent: #007aff;
+    -fx-focus-color: #0A60FF;
+}
+
+* {
+    -fx-font-family: "SF Pro Text";
+}
+
+
+.label {
+    -fx-font-family: "SF Pro Text";
+}
+
+.title {
+    -fx-font-family: "SF Pro Display";
+}
+
+
+.titled-pane > .title {
+    -fx-font-family: "SF Pro Text";
+}
+
+.button {
+    -fx-background-color: #106BFF;
+    -fx-text-fill: #fff;
+}
+
+.choice-box {
+    -fx-background-color: #fff;
+    -fx-mark-color: #106BFF;
+}
+
+.choice-box > .label {
+    -fx-text-fill: #000;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: #fff;
+}
+
+
+
 .table-view {
     -fx-min-height: 120px;
 }
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler {
+    -fx-background-color: #D8D8D8;
+    -fx-text-fill: #000;
+    -fx-font-size: 10pt;
+    -fx-font-family: "SF Pro Text";
+    -fx-font-style: normal;
+
+}
+
+
 
 .table-column {
     -fx-pref-width: 339px;
 }
 
 
+
 .addFoodTableColumn {
     -fx-pref-width: 350px;
 }
 
+.progress-bar .bar {
+    -fx-padding: 3px;
+    -fx-background-insets: 0;
+    -fx-box-border: #D9D9D9;
+    -fx-accent: #3B99FC;
+    -fx-pref-width: 100px;
+}
+
+.progress-bar > .track {
+    -fx-text-box-border: #D9D9D9;
+    -fx-control-inner-background: #D9D9D9;
+}
+
+/*.default-color0.chart-series-line {*/
+    /*-fx-stroke: #FC2B2D;*/
+/*}*/
+
+/*.default-color1.chart-series-line {*/
+    /*-fx-stroke: #106BFF;*/
+/*}*/
+
+#splashContinue {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 20px;
+    -fx-border-radius: 10px;
+}
 

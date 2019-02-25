@@ -65,13 +65,21 @@ public class Controller implements Initializable {
         snackTableView.setPlaceholder(new Label("To add foods, go to Add Food"));
 
         breakfastNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        breakfastNameColumn.setSortable(false);
         breakfastCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+        breakfastCaloriesColumn.setSortable(false);
         lunchNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        lunchNameColumn.setSortable(false);
         lunchCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+        lunchCaloriesColumn.setSortable(false);
         dinnerNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        dinnerNameColumn.setSortable(false);
         dinnerCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+        dinnerCaloriesColumn.setSortable(false);
         snackNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        snackNameColumn.setSortable(false);
         snackCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+        snackCaloriesColumn.setSortable(false);
 
         // Reading in a saved food diary
         if (readFoodDiary() != null) {
@@ -107,6 +115,7 @@ public class Controller implements Initializable {
         else {
             // TODO: put a welcome screen where the user can set target calories etc.
             foodDiary = new FoodDiary();
+            foodDiary.setTargetCalories(SpashScreen.welcome());
             foodDiary.setEstimatedDate(LocalDate.now());
         }
 
@@ -117,7 +126,9 @@ public class Controller implements Initializable {
         // Populating the Add Food Table
 
         addFoodNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        addFoodNameColumn.setSortable(false);
         addFoodCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+        addFoodCaloriesColumn.setSortable(false);
         try {
             FoodDataAccessor foodDataAccessor = new FoodDataAccessor();
             ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
@@ -153,7 +164,6 @@ public class Controller implements Initializable {
         xAxis.setLowerBound(0);
         xAxis.setUpperBound(30);
         xAxis.setTickUnit(1);
-
 
     }
 

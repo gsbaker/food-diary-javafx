@@ -17,9 +17,13 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("view.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Food Diary");
-        primaryStage.setScene(new Scene(root, 720, 480));
-        primaryStage.getIcons().add(new Image("file:Food Diary Icon.jpeg"));
+
+        Scene scene = new Scene(root, 720, 480);
+        scene.getStylesheets().add("style.css");
+
+        primaryStage.setScene(scene);
         primaryStage.show();
+
         controller = loader.getController();
         primaryStage.setOnCloseRequest(event -> {
             controller.handleClose();
