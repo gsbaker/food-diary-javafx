@@ -22,6 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Controller implements Initializable {
 
     private FoodDiary foodDiary;
+    private FoodDataAccessor foodDataAccessor;
 
     // Food Diary
     @FXML private TableView<Food> breakfastTableView;
@@ -42,6 +43,8 @@ public class Controller implements Initializable {
     @FXML private TableColumn<Food, String> addFoodNameColumn;
     @FXML private TableColumn<Food, Integer> addFoodCaloriesColumn;
     @FXML private ChoiceBox<String> mealtimeChoiceBox;
+    @FXML private TextField addFoodNameTextField;
+    @FXML private TextField addFoodCaloriesTextField;
 
     // Progress
     @FXML private Label totalCaloriesLabel;
@@ -54,6 +57,15 @@ public class Controller implements Initializable {
 
     // Settings
     @FXML private TextField targetCaloriesInput;
+
+
+    public Controller() {
+        try {
+            foodDataAccessor = new FoodDataAccessor();
+        } catch (ClassNotFoundException| SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,6 +120,7 @@ public class Controller implements Initializable {
                 foodDiary.setEstimatedDate(currentDate);
                 FoodDiary savedFoodDiary = readFoodDiary();
                 foodDiary.setTargetCalories(savedFoodDiary.getTargetCalories());
+
                 foodDiary.addToSavedCalories(savedFoodDiary.getTotalCalories());
             }
         }
@@ -130,11 +143,10 @@ public class Controller implements Initializable {
         addFoodCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
         addFoodCaloriesColumn.setSortable(false);
         try {
-            FoodDataAccessor foodDataAccessor = new FoodDataAccessor();
             ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
             addFoodTableView.setItems(foods);
             addFoodTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         // Choosing a meal time
@@ -304,6 +316,28 @@ public class Controller implements Initializable {
                 foodDiary.addToTotalCalories(food.getCalories());
                 updateProgress();
             }
+        }
+    }
+
+    public void addUserFoodEventHandler() {
+        try {
+            int id = foodDataAccessor.generateId();
+            String name = addFoodNameTextField.getText();
+            int calories = stringToInt(addFoodCaloriesTextField.getText());
+            Food food = new Food(id, name, calories);
+            foodDataAccessor.insertFood(food);
+            ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
+            addFoodTableView.setItems(foods);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int stringToInt(String s) {
+        try {
+            return Integer.parseInt(s);
+        } catch (Exception e) {
+            return 0;
         }
     }
 

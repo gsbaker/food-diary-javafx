@@ -44,6 +44,25 @@ public class FoodDataAccessor {
         }
     }
 
+    public ArrayList<Food> getFoodArrayList() throws SQLException {
+        try (
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM food");
+        ){
+            ArrayList<Food> foodArrayList = new ArrayList<>();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int calories = resultSet.getInt("calories");
+                Food food = new Food(id, name, calories);
+                foodArrayList.add(food);
+            }
+            return foodArrayList;
+        }
+    }
+
+
     public List<String> getFoodNames() throws SQLException {
         try (
                 Statement statement = connection.createStatement();
@@ -71,6 +90,21 @@ public class FoodDataAccessor {
             }
         }
         return 0;
+    }
+
+    public void insertFood(Food food) throws SQLException {
+        int id = food.getId();
+        String name = food.getName();
+        int calories = food.getCalories();
+        Statement statement = connection.createStatement();
+        String values = "(" + id + "," + "'" + name + "'" + "," + calories + ")";
+        statement.executeUpdate("INSERT INTO food VALUES " + values);
+    }
+
+    public int generateId() throws SQLException {
+        ArrayList<Food> currentFoods = getFoodArrayList();
+        int currentHighestID = currentFoods.get(currentFoods.size() - 1).getId();
+        return currentHighestID + 1;
     }
 
 

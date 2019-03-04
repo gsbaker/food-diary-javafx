@@ -84,6 +84,27 @@
                   </TableView>
                   <Button mnemonicParsing="false" onAction="#addFoodsEventHandler" text="Add Foods" />
                   <ChoiceBox fx:id="mealtimeChoiceBox" prefWidth="150.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Add your own" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <TextField fx:id="addFoodNameTextField" promptText="Food Name" />
+                              <TextField fx:id="addFoodCaloriesTextField" promptText="Calories" />
+                              <Button mnemonicParsing="false" onAction="#addUserFoodEventHandler" text="Add" />
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="10.0" right="10.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets top="15.0" />
+                     </padding>
+                  </VBox>
                </children>
             </VBox>
          </content>
