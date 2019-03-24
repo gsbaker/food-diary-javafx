@@ -87,7 +87,7 @@
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Label text="Add your own" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                        <HBox spacing="10.0">
                            <children>
                               <TextField fx:id="addFoodNameTextField" promptText="Food Name" />
                               <TextField fx:id="addFoodCaloriesTextField" promptText="Calories" />
@@ -100,6 +100,7 @@
                               <Insets bottom="10.0" right="10.0" top="5.0" />
                            </padding>
                         </HBox>
+                        <Label id="errorLabel" fx:id="errorLabel" />
                      </children>
                      <padding>
                         <Insets top="15.0" />

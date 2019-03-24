@@ -45,6 +45,7 @@ public class Controller implements Initializable {
     @FXML private ChoiceBox<String> mealtimeChoiceBox;
     @FXML private TextField addFoodNameTextField;
     @FXML private TextField addFoodCaloriesTextField;
+    @FXML private Label errorLabel;
 
     // Progress
     @FXML private Label totalCaloriesLabel;
@@ -94,9 +95,9 @@ public class Controller implements Initializable {
         snackCaloriesColumn.setSortable(false);
 
         // Reading in a saved food diary
-        if (readFoodDiary() != null) {
+        foodDiary = readFoodDiary();
+        if (foodDiary != null) {
             LocalDate currentDate = LocalDate.now();
-            foodDiary = readFoodDiary();
             if (foodDiary.getEstimatedDate().compareTo(currentDate) == 0) {
                 if (foodDiary.getBreakfastFoodsList() != null) {
                     foodDiary.setBreakfastFoodsObservableList(FXCollections.observableList(foodDiary.getBreakfastFoodsList()));
@@ -116,24 +117,27 @@ public class Controller implements Initializable {
                 }
             }
             else {
+                FoodDiary savedFoodDiary = foodDiary;
                 foodDiary = new FoodDiary();
                 foodDiary.setEstimatedDate(currentDate);
-                FoodDiary savedFoodDiary = readFoodDiary();
                 foodDiary.setTargetCalories(savedFoodDiary.getTargetCalories());
+                if (savedFoodDiary.getSavedCalories() == null) {
+                    foodDiary.setSavedCalories(new ArrayList<>());
+                }
+                else {
+                    foodDiary.addToSavedCalories(savedFoodDiary.getTotalCalories());
+                }
 
-                foodDiary.addToSavedCalories(savedFoodDiary.getTotalCalories());
             }
         }
         // Create a completely new Food Diary
         else {
-            // TODO: put a welcome screen where the user can set target calories etc.
             foodDiary = new FoodDiary();
             foodDiary.setTargetCalories(SpashScreen.welcome());
             foodDiary.setEstimatedDate(LocalDate.now());
         }
 
         foodDiary.setChangesMade(false);
-//        foodDiary.setEstimatedDate(LocalDate.now());
 
         // --- Add Foods Tab ---
         // Populating the Add Food Table
@@ -207,14 +211,22 @@ public class Controller implements Initializable {
     }
 
     private FoodDiary readFoodDiary() {
+        FileInputStream fileInputStream = null;
         try {
-            FileInputStream fileInputStream = new FileInputStream("FoodDiarySaveFile.ser");
+            fileInputStream = new FileInputStream("FoodDiarySaveFile.ser");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             return (FoodDiary) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return null;
+        } finally {
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return null;
     }
 
     public void removeEventHandler() {
@@ -276,24 +288,28 @@ public class Controller implements Initializable {
                 currentFoods = foodDiary.getBreakfastFoodsObservableList();
                 addFoodsHelper(newFoods, updatedFoodList, currentFoods);
                 foodDiary.setBreakfastFoodsObservableList(updatedFoodList);
+                foodDiary.setBreakfastFoodsList(new ArrayList<>(updatedFoodList));
                 breakfastTableView.setItems(foodDiary.getBreakfastFoodsObservableList());
                 break;
             case "Lunch":
                 currentFoods = foodDiary.getLunchFoodsObservableList();
                 addFoodsHelper(newFoods, updatedFoodList, currentFoods);
                 foodDiary.setLunchFoodsObservableList(updatedFoodList);
+                foodDiary.setLunchFoodsList(new ArrayList<>(updatedFoodList));
                 lunchTableView.setItems(foodDiary.getLunchFoodsObservableList());
                 break;
             case "Dinner":
                 currentFoods = foodDiary.getDinnerFoodsObservableList();
                 addFoodsHelper(newFoods, updatedFoodList, currentFoods);
                 foodDiary.setDinnerFoodsObservableList(updatedFoodList);
+                foodDiary.setDinnerFoodsList(new ArrayList<>(updatedFoodList));
                 dinnerTableView.setItems(foodDiary.getDinnerFoodsObservableList());
                 break;
             case "Snacks":
                 currentFoods = foodDiary.getSnackFoodsObservableList();
                 addFoodsHelper(newFoods, updatedFoodList, currentFoods);
                 foodDiary.setSnackFoodsObservableList(updatedFoodList);
+                foodDiary.setSnackFoodsList(new ArrayList<>(updatedFoodList));
                 snackTableView.setItems(foodDiary.getSnackFoodsObservableList());
                 break;
         }
@@ -323,21 +339,41 @@ public class Controller implements Initializable {
         try {
             int id = foodDataAccessor.generateId();
             String name = addFoodNameTextField.getText();
-            int calories = stringToInt(addFoodCaloriesTextField.getText());
-            Food food = new Food(id, name, calories);
-            foodDataAccessor.insertFood(food);
-            ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
-            addFoodTableView.setItems(foods);
+            String caloriesString = addFoodCaloriesTextField.getText();
+            if (isAlpha(name) && isNumber(caloriesString) && name.length() > 0) {
+                int calories = Integer.parseInt(caloriesString);
+                Food food = new Food(id, name, calories);
+                foodDataAccessor.insertFood(food);
+                ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
+                addFoodTableView.setItems(foods);
+                errorLabel.setText("");
+            }
+            else {
+                errorLabel.setText("Please enter in a valid format");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private static int stringToInt(String s) {
+    private boolean isAlpha(String s) {
+        char[] chars = s.toCharArray();
+
+        for (char c : chars) {
+            if(!Character.isLetter(c) && c != ' ') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isNumber(String s) {
         try {
-            return Integer.parseInt(s);
-        } catch (Exception e) {
-            return 0;
+            Double.parseDouble(s);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
         }
     }
 
@@ -361,12 +397,9 @@ public class Controller implements Initializable {
     }
 
 
-    public void handleClose() {
+    void handleClose() {
         if (foodDiary.isChangesMade()) {
             save();
         }
     }
-
-
-
 }

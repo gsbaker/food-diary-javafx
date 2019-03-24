@@ -94,3 +94,7 @@
     -fx-pref-height: 20px;
     -fx-border-radius: 10px;
 }
+
+#errorLabel {
+    -fx-text-fill: #FC2B2D;
+}
