@@ -134,7 +134,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <LineChart fx:id="lineChart" title="Last 30 days">
+                  <LineChart fx:id="lineChart">
                     <xAxis>
                        <NumberAxis label="Day" side="BOTTOM" fx:id="xAxis" />
                     </xAxis>

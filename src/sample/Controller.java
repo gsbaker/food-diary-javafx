@@ -135,6 +135,7 @@ public class Controller implements Initializable {
             foodDiary = new FoodDiary();
             foodDiary.setTargetCalories(SpashScreen.welcome());
             foodDiary.setEstimatedDate(LocalDate.now());
+            foodDiary.setSavedCalories(new ArrayList<>());
         }
 
         foodDiary.setChangesMade(false);
@@ -160,25 +161,27 @@ public class Controller implements Initializable {
         mealtimeChoiceBox.setValue("Breakfast");
 
         // --- Progress Tab ---
+        System.out.println(foodDiary.getSavedCalories());
         Font font = new Font(20);
         totalCaloriesLabel.setFont(font);
         targetCaloriesLabel.setFont(font);
         remainingCaloriesLabel.setFont(font);
         updateProgress();
         progressBar.progressProperty().bind(foodDiary.barUpdaterProperty());
+        lineChart.setTitle("Last " + (foodDiary.getSavedCalories().size() - 1) + " days of tracking");
         XYChart.Series<Number, Number> targetSeries = new XYChart.Series<>();
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
         targetSeries.setName("Target Calories");
         series.setName("Your Progress");
-        for (int i = 0; i <= 30; i ++) {
+        for (int i = 0; i <= foodDiary.getSavedCalories().size() - 1; i ++) {
             targetSeries.getData().add(new XYChart.Data<>(i, foodDiary.getTargetCalories()));
-            series.getData().add(new XYChart.Data<>(i, ThreadLocalRandom.current().nextInt(1500, 2501)));
+            series.getData().add(new XYChart.Data<>(i, foodDiary.getSavedCalories().get(i)));
         }
         lineChart.getData().add(targetSeries);
         lineChart.getData().add(series);
         xAxis.setAutoRanging(false);
-        xAxis.setLowerBound(0);
-        xAxis.setUpperBound(30);
+        xAxis.setLowerBound(1);
+        xAxis.setUpperBound(foodDiary.getSavedCalories().size());
         xAxis.setTickUnit(1);
 
     }
