@@ -17,7 +17,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Controller implements Initializable {
 
@@ -45,7 +44,7 @@ public class Controller implements Initializable {
     @FXML private ChoiceBox<String> mealtimeChoiceBox;
     @FXML private TextField addFoodNameTextField;
     @FXML private TextField addFoodCaloriesTextField;
-    @FXML private Label errorLabel;
+    @FXML private Label messageLabel;
 
     // Progress
     @FXML private Label totalCaloriesLabel;
@@ -125,6 +124,7 @@ public class Controller implements Initializable {
                     foodDiary.setSavedCalories(new ArrayList<>());
                 }
                 else {
+                    foodDiary.setSavedCalories(savedFoodDiary.getSavedCalories());
                     foodDiary.addToSavedCalories(savedFoodDiary.getTotalCalories());
                 }
 
@@ -161,7 +161,7 @@ public class Controller implements Initializable {
         mealtimeChoiceBox.setValue("Breakfast");
 
         // --- Progress Tab ---
-        System.out.println(foodDiary.getSavedCalories());
+
         Font font = new Font(20);
         totalCaloriesLabel.setFont(font);
         targetCaloriesLabel.setFont(font);
@@ -349,10 +349,12 @@ public class Controller implements Initializable {
                 foodDataAccessor.insertFood(food);
                 ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
                 addFoodTableView.setItems(foods);
-                errorLabel.setText("");
+                messageLabel.getStyleClass().add("successLabel");
+                messageLabel.setText(name + " was successfully  added");
             }
             else {
-                errorLabel.setText("Please enter in a valid format");
+                messageLabel.getStyleClass().add("errorLabel");
+                messageLabel.setText("Please enter in a valid format");
             }
         } catch (SQLException e) {
             e.printStackTrace();

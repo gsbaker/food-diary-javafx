@@ -48,3 +48,5 @@ public class SpashScreen {
     }
 
 }
+
+// Create Food objects from fields in the database
