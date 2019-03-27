@@ -57,6 +57,7 @@ public class Controller implements Initializable {
 
     // Settings
     @FXML private TextField targetCaloriesInput;
+    @FXML private Label targetCaloriesMessage;
 
 
     public Controller() {
@@ -350,10 +351,12 @@ public class Controller implements Initializable {
                 ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
                 addFoodTableView.setItems(foods);
                 messageLabel.getStyleClass().add("successLabel");
+                messageLabel.getStyleClass().remove("errorLabel");
                 messageLabel.setText(name + " was successfully  added");
             }
             else {
                 messageLabel.getStyleClass().add("errorLabel");
+                messageLabel.getStyleClass().remove("successLabel");
                 messageLabel.setText("Please enter in a valid format");
             }
         } catch (SQLException e) {
@@ -392,13 +395,33 @@ public class Controller implements Initializable {
     }
 
     // --- Methods relating to settings ---
+    // TODO Add validation to splash screen set calories
     public void setTargetCaloriesEventHandler() {
-        int newTargetCalories = Integer.parseInt(targetCaloriesInput.getText());
-        foodDiary.setTargetCalories(newTargetCalories);
-        targetCaloriesLabel.setText("Target Calories: " + foodDiary.getTargetCalories());
-        remainingCaloriesLabel.setText("Remaining Calories: " + (foodDiary.getTargetCalories() - foodDiary.getTotalCalories()));
-        foodDiary.setBarUpdater((foodDiary.getTotalCalories() / (double)foodDiary.getTargetCalories()));
-        foodDiary.setChangesMade(true);
+        String targetCaloriesString = targetCaloriesInput.getText();
+        if (isNumber(targetCaloriesString)) { // check that it's a number not letters
+            int newTargetCalories = Integer.parseInt(targetCaloriesString);
+            if (newTargetCalories >= 1800 && newTargetCalories <= 4000) { // check within range
+                // set as new target calories etc.
+                foodDiary.setTargetCalories(newTargetCalories);
+                targetCaloriesLabel.setText("Target Calories: " + foodDiary.getTargetCalories());
+                remainingCaloriesLabel.setText("Remaining Calories: " + (foodDiary.getTargetCalories() - foodDiary.getTotalCalories()));
+                foodDiary.setBarUpdater((foodDiary.getTotalCalories() / (double)foodDiary.getTargetCalories()));
+                targetCaloriesMessage.getStyleClass().add("successLabel");
+                targetCaloriesMessage.getStyleClass().remove("errorLabel");
+                targetCaloriesMessage.setText("Target Calories changed to " + targetCaloriesString + " calories");
+                foodDiary.setChangesMade(true);
+            }
+            else { // not within range
+                targetCaloriesMessage.getStyleClass().add("errorLabel");
+                targetCaloriesMessage.getStyleClass().remove("successLabel");
+                targetCaloriesMessage.setText("Please enter a number between 1800 and 4000");
+            }
+        }
+        else { // not a number, they entered non numberic characters
+            targetCaloriesMessage.getStyleClass().add("errorLabel");
+            targetCaloriesMessage.getStyleClass().remove("successLabel");
+            targetCaloriesMessage.setText("Please enter a number between 1800 and 4000");
+        }
     }
 
 
