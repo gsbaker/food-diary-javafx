@@ -3,16 +3,13 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
@@ -20,8 +17,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Controller implements Initializable {
 
@@ -78,8 +73,8 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-        testQuery();
-//        listen();
+//        testQuery();
+        listen();
 
         // --- Food Diary Tab ---
         breakfastTableView.setPlaceholder(new Label("To add foods, go to Add Food"));
@@ -412,9 +407,25 @@ public class Controller implements Initializable {
         }
     }
 
-//    private String listen() {
-//
-//    }
+    private ObservableList<Food> listen() {
+        searchField.textProperty().addListener(
+                ((observable, oldValue, newValue) -> {
+//                    System.out.println(newValue);
+                    try {
+                        ObservableList<Food> food = foodDataAccessor.search(newValue);
+//                        return food;
+                        for (Food f: food) {
+                            System.out.println(f.getName());
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                })
+        );
+        return FXCollections.observableArrayList(); // DELETE this once working
+    }
+
+
 
 
     // --- Methods relating to progress ---
@@ -462,17 +473,17 @@ public class Controller implements Initializable {
         }
     }
 
-    private void testQuery() {
-        String query = "a"; // so should return apple
-        try {
-            ObservableList<Food> objectsReturned = foodDataAccessor.search(query);
-            for (Food f: objectsReturned) {
-                System.out.println(f.getName());
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    private void testQuery() {
+//        String query = "a"; // so should return apple
+//        try {
+//            ObservableList<Food> objectsReturned = foodDataAccessor.search(query);
+//            for (Food f: objectsReturned) {
+//                System.out.println(f.getName());
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }
