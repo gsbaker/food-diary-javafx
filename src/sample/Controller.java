@@ -3,13 +3,16 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
@@ -17,6 +20,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Controller implements Initializable {
 
@@ -45,6 +50,7 @@ public class Controller implements Initializable {
     @FXML private TextField addFoodNameTextField;
     @FXML private TextField addFoodCaloriesTextField;
     @FXML private Label messageLabel;
+    @FXML private TextField searchField;
 
     // Progress
     @FXML private Label totalCaloriesLabel;
@@ -70,6 +76,10 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
+        testQuery();
+//        listen();
 
         // --- Food Diary Tab ---
         breakfastTableView.setPlaceholder(new Label("To add foods, go to Add Food"));
@@ -133,6 +143,7 @@ public class Controller implements Initializable {
         }
         // Create a completely new Food Diary
         else {
+            // TODO: call createWelcomeScreen here once finished
             foodDiary = new FoodDiary();
             foodDiary.setTargetCalories(SpashScreen.welcome());
             foodDiary.setEstimatedDate(LocalDate.now());
@@ -186,6 +197,22 @@ public class Controller implements Initializable {
         xAxis.setTickUnit(1);
 
     }
+
+//    private void createWelcomeScreen() {
+//        try {
+//            FXMLLoader fxmlLoader = new FXMLLoader();
+//            fxmlLoader.setLocation(getClass().getResource("welcomeScreenView.fxml"));
+//            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+//            scene.getStylesheets().add("style.css");
+//            Stage stage = new Stage();
+//            stage.setTitle("New Window");
+//            stage.setScene(scene);
+//            stage.show();
+//        } catch (IOException e) {
+//            Logger logger = Logger.getLogger(getClass().getName());
+//            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+//        }
+//    }
 
 
     // --- Methods relating to Food Diary ---
@@ -385,6 +412,10 @@ public class Controller implements Initializable {
         }
     }
 
+//    private String listen() {
+//
+//    }
+
 
     // --- Methods relating to progress ---
     private void updateProgress() {
@@ -417,7 +448,7 @@ public class Controller implements Initializable {
                 targetCaloriesMessage.setText("Please enter a number between 1800 and 4000");
             }
         }
-        else { // not a number, they entered non numberic characters
+        else { // not a number, they entered non numeric characters
             targetCaloriesMessage.getStyleClass().add("errorLabel");
             targetCaloriesMessage.getStyleClass().remove("successLabel");
             targetCaloriesMessage.setText("Please enter a number between 1800 and 4000");
@@ -429,5 +460,19 @@ public class Controller implements Initializable {
         if (foodDiary.isChangesMade()) {
             save();
         }
+    }
+
+    private void testQuery() {
+        String query = "a"; // so should return apple
+        try {
+            ObservableList<Food> objectsReturned = foodDataAccessor.search(query);
+            for (Food f: objectsReturned) {
+                System.out.println(f.getName());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

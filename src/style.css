@@ -102,3 +102,7 @@
 .successLabel {
     -fx-text-fill: #30D33B;
 }
+
+#welcomeTitle {
+    -fx-font-size: 30pt;
+}

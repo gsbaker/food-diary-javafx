@@ -107,5 +107,25 @@ public class FoodDataAccessor {
         return currentHighestID + 1;
     }
 
+    public ObservableList<Food> search(String searchTerm) throws SQLException {
+
+        String query = "SELECT * FROM food WHERE name LIKE '" + searchTerm + "%'";
+
+        try (
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query);
+        ){
+            ObservableList<Food> foodObservableList = FXCollections.observableArrayList();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int calories = resultSet.getInt("calories");
+                Food food = new Food(id, name, calories);
+                foodObservableList.add(food);
+            }
+            return foodObservableList;
+        }
+    }
+
 
 }

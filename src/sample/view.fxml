@@ -76,6 +76,15 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
                <children>
+                  <HBox spacing="10.0">
+                     <children>
+                        <TextField fx:id="searchField" prefHeight="27.0" prefWidth="500.0" promptText="Search Database..." />
+                        <Button mnemonicParsing="false" text="Search" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
                   <TableView fx:id="addFoodTableView" prefHeight="200.0" prefWidth="200.0">
                      <columns>
                         <TableColumn fx:id="addFoodNameColumn" prefWidth="200.0" styleClass="addFoodTableColumn" text="Food" />
