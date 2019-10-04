@@ -74,7 +74,7 @@ public class Controller implements Initializable {
 
 
 //        testQuery();
-        listen();
+
 
         // --- Food Diary Tab ---
         breakfastTableView.setPlaceholder(new Label("To add foods, go to Add Food"));
@@ -154,18 +154,39 @@ public class Controller implements Initializable {
         addFoodNameColumn.setSortable(false);
         addFoodCaloriesColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
         addFoodCaloriesColumn.setSortable(false);
-        try {
-            ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
-            addFoodTableView.setItems(foods);
-            addFoodTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        searchField.textProperty().addListener(
+                ((observable, oldValue, newValue) -> {
+                    try {
+                        if (newValue.trim().length() > 1) {
+                            addFoodTableView.setItems(foodDataAccessor.search(newValue));
+                            addFoodTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                        }
+                        else {
+                            // FOR NOW: display all foods
+                            addFoodTableView.setItems(foodDataAccessor.getFoodObservableList());
+                            // TODO: display favourite/recent foods
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                })
+        );
+
+//        try {
+//            ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
+//            addFoodTableView.setItems(foods);
+//            addFoodTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         // Choosing a meal time
         ObservableList<String> mealtimeChoices = FXCollections.observableArrayList();
         mealtimeChoices.addAll("Breakfast", "Lunch", "Dinner", "Snacks");
         mealtimeChoiceBox.setItems(mealtimeChoices);
         mealtimeChoiceBox.setValue("Breakfast");
+
+
 
         // --- Progress Tab ---
 
@@ -407,23 +428,9 @@ public class Controller implements Initializable {
         }
     }
 
-    private ObservableList<Food> listen() {
-        searchField.textProperty().addListener(
-                ((observable, oldValue, newValue) -> {
-//                    System.out.println(newValue);
-                    try {
-                        ObservableList<Food> food = foodDataAccessor.search(newValue);
-//                        return food;
-                        for (Food f: food) {
-                            System.out.println(f.getName());
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                })
-        );
-        return FXCollections.observableArrayList(); // DELETE this once working
-    }
+
+
+
 
 
 
