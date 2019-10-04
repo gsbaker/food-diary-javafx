@@ -158,8 +158,8 @@ public class Controller implements Initializable {
         searchField.textProperty().addListener(
                 ((observable, oldValue, newValue) -> {
                     try {
-                        if (newValue.trim().length() > 1) {
-                            addFoodTableView.setItems(foodDataAccessor.search(newValue));
+                        if (newValue.trim().length() > 0) {
+                            addFoodTableView.setItems(foodDataAccessor.search(newValue.trim()));
                             addFoodTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
                         }
                         else {
