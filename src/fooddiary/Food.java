@@ -1,4 +1,4 @@
-package sample;
+package fooddiary;
 
 import java.io.Serializable;
 

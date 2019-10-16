@@ -11,7 +11,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fooddiary.controllers.Controller">
   <tabs>
     <Tab text="Food Diary">
          <content>
@@ -20,46 +20,34 @@
                   <VBox spacing="10.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#removeEventHandler" text="Remove" />
-                        <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Breakfast">
-                           <content>
-                              <TableView fx:id="breakfastTableView" prefWidth="0.0">
-                                 <columns>
-                                    <TableColumn fx:id="breakfastNameColumn" prefWidth="200.0" text="Food" />
-                                    <TableColumn fx:id="breakfastCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
-                                 </columns>
-                              </TableView>
-                           </content>
-                        </TitledPane>
-                        <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Lunch">
-                           <content>
-                              <TableView fx:id="lunchTableView" prefHeight="200.0" prefWidth="200.0">
-                                 <columns>
-                                    <TableColumn fx:id="lunchNameColumn" prefWidth="200.0" text="Food" />
-                                    <TableColumn fx:id="lunchCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
-                                 </columns>
-                              </TableView>
-                           </content>
-                        </TitledPane>
-                        <TitledPane fx:id="dinnnerTableView" animated="false" prefHeight="100.0" prefWidth="680.0" text="Dinner">
-                           <content>
-                              <TableView fx:id="dinnerTableView" prefHeight="200.0" prefWidth="200.0">
-                                 <columns>
-                                    <TableColumn fx:id="dinnerNameColumn" prefWidth="200.0" text="Food" />
-                                    <TableColumn fx:id="dinnerCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
-                                 </columns>
-                              </TableView>
-                           </content>
-                        </TitledPane>
-                        <TitledPane animated="false" prefHeight="100.0" prefWidth="680.0" text="Snacks">
-                           <content>
-                              <TableView fx:id="snackTableView" prefHeight="200.0" prefWidth="200.0">
-                                 <columns>
-                                    <TableColumn fx:id="snackNameColumn" prefWidth="200.0" text="Food" />
-                                    <TableColumn fx:id="snackCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
-                                 </columns>
-                              </TableView>
-                           </content>
-                        </TitledPane>
+                        <Label style="-fx-font-size: 15;" styleClass="titleLabel" text="Breakfast" />
+                        <TableView fx:id="breakfastTableView" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="680.0">
+                           <columns>
+                              <TableColumn fx:id="breakfastNameColumn" prefWidth="200.0" text="Food" />
+                              <TableColumn fx:id="breakfastCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
+                           </columns>
+                        </TableView>
+                        <Label style="-fx-font-size: 15;" styleClass="titleLabel" text="Lunch" />
+                        <TableView fx:id="lunchTableView" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="680.0">
+                           <columns>
+                              <TableColumn fx:id="lunchNameColumn" prefWidth="200.0" text="Food" />
+                              <TableColumn fx:id="lunchCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
+                           </columns>
+                        </TableView>
+                        <Label style="-fx-font-size: 15;" styleClass="titleLabel" text="Dinner" />
+                        <TableView fx:id="dinnerTableView" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="680.0">
+                           <columns>
+                              <TableColumn fx:id="dinnerNameColumn" prefWidth="200.0" text="Food" />
+                              <TableColumn fx:id="dinnerCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
+                           </columns>
+                        </TableView>
+                        <Label style="-fx-font-size: 15;" styleClass="titleLabel" text="Snacks" />
+                        <TableView fx:id="snackTableView" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="680.0">
+                           <columns>
+                              <TableColumn fx:id="snackNameColumn" prefWidth="200.0" text="Food" />
+                              <TableColumn fx:id="snackCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
+                           </columns>
+                        </TableView>
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -91,8 +79,16 @@
                         <TableColumn fx:id="addFoodCaloriesColumn" prefWidth="200.0" styleClass="addFoodTableColumn" text="Calories (cal)" />
                      </columns>
                   </TableView>
-                  <Button mnemonicParsing="false" onAction="#addFoodsEventHandler" text="Add Foods" />
                   <ChoiceBox fx:id="mealtimeChoiceBox" prefWidth="150.0" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#addFoodsEventHandler" text="Add To Diary" />
+                        <Button mnemonicParsing="false" text="Add to favourites" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Label text="Add your own" />

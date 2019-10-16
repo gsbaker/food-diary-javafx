@@ -1,15 +1,13 @@
-package sample;
+package fooddiary;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FoodDiary implements Serializable {
 
@@ -27,6 +25,7 @@ public class FoodDiary implements Serializable {
     private LocalDate estimatedDate;
     private transient DoubleProperty barUpdater;
     private ArrayList<Integer> savedCalories;
+    private ArrayList<Food> favourites;
 
 
     public FoodDiary() {
@@ -165,6 +164,18 @@ public class FoodDiary implements Serializable {
 
     public void addToSavedCalories(int amount) {
         this.savedCalories.add(amount);
+    }
+
+    public ArrayList<Food> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(ArrayList<Food> favourites) {
+        this.favourites = favourites;
+    }
+
+    public ObservableList<Food> getFavouritesObservableList() {
+        return FXCollections.observableArrayList(favourites);
     }
 
 }

@@ -1,5 +1,8 @@
-package sample;
+package fooddiary.controllers;
 
+import fooddiary.Food;
+import fooddiary.FoodDiary;
+import fooddiary.dao.FoodDiaryDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,7 +24,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     private FoodDiary foodDiary;
-    private FoodDataAccessor foodDataAccessor;
+    private FoodDiaryDAO foodDiaryDAO;
 
     // Food Diary
     @FXML private TableView<Food> breakfastTableView;
@@ -63,7 +66,7 @@ public class Controller implements Initializable {
 
     public Controller() {
         try {
-            foodDataAccessor = new FoodDataAccessor();
+            foodDiaryDAO = new FoodDiaryDAO();
         } catch (ClassNotFoundException| SQLException e) {
             e.printStackTrace();
         }
@@ -132,6 +135,7 @@ public class Controller implements Initializable {
                 else {
                     foodDiary.setSavedCalories(savedFoodDiary.getSavedCalories());
                     foodDiary.addToSavedCalories(savedFoodDiary.getTotalCalories());
+
                 }
 
             }
@@ -140,7 +144,7 @@ public class Controller implements Initializable {
         else {
             // TODO: call createWelcomeScreen here once finished
             foodDiary = new FoodDiary();
-            foodDiary.setTargetCalories(SpashScreen.welcome());
+            foodDiary.setTargetCalories(2000);
             foodDiary.setEstimatedDate(LocalDate.now());
             foodDiary.setSavedCalories(new ArrayList<>());
         }
@@ -159,12 +163,12 @@ public class Controller implements Initializable {
                 ((observable, oldValue, newValue) -> {
                     try {
                         if (newValue.trim().length() > 0) {
-                            addFoodTableView.setItems(foodDataAccessor.search(newValue.trim()));
+                            addFoodTableView.setItems(foodDiaryDAO.search(newValue.trim()));
                             addFoodTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
                         }
                         else {
                             // FOR NOW: display all foods
-                            addFoodTableView.setItems(foodDataAccessor.getFoodObservableList());
+                            addFoodTableView.setItems(foodDiaryDAO.getFoodObservableList());
                             // TODO: display favourite/recent foods
                         }
                     } catch (SQLException e) {
@@ -174,7 +178,7 @@ public class Controller implements Initializable {
         );
 
 //        try {
-//            ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
+//            ObservableList<Food> foods = foodDiaryDAO.getFoodObservableList(); // Getting the foods from the database as Food objects
 //            addFoodTableView.setItems(foods);
 //            addFoodTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 //        } catch (SQLException e) {
@@ -384,14 +388,14 @@ public class Controller implements Initializable {
 
     public void addUserFoodEventHandler() {
         try {
-            int id = foodDataAccessor.generateId();
+            int id = foodDiaryDAO.generateId();
             String name = addFoodNameTextField.getText();
             String caloriesString = addFoodCaloriesTextField.getText();
             if (isAlpha(name) && isNumber(caloriesString) && name.length() > 0) {
                 int calories = Integer.parseInt(caloriesString);
                 Food food = new Food(id, name, calories);
-                foodDataAccessor.insertFood(food);
-                ObservableList<Food> foods = foodDataAccessor.getFoodObservableList(); // Getting the foods from the database as Food objects
+                foodDiaryDAO.insertFood(food);
+                ObservableList<Food> foods = foodDiaryDAO.getFoodObservableList(); // Getting the foods from the database as Food objects
                 addFoodTableView.setItems(foods);
                 messageLabel.getStyleClass().add("successLabel");
                 messageLabel.getStyleClass().remove("errorLabel");
@@ -427,10 +431,6 @@ public class Controller implements Initializable {
             return false;
         }
     }
-
-
-
-
 
 
 
@@ -473,8 +473,21 @@ public class Controller implements Initializable {
         }
     }
 
+//    private ObservableList<Food> listen() {
+//        searchField.textProperty().addListener(
+//                ((observable, oldValue, newValue) -> {
+//                    try {
+//                        ObservableList<Food> foods = foodDiaryDAO.search(newValue);
+//                    }
+//                    catch (SQLException e) {
+//                        e.printStackTrace();
+//                    }
+//                })
+//        );
+//    }
 
-    void handleClose() {
+
+    public void handleClose() {
         if (foodDiary.isChangesMade()) {
             save();
         }
@@ -483,7 +496,7 @@ public class Controller implements Initializable {
 //    private void testQuery() {
 //        String query = "a"; // so should return apple
 //        try {
-//            ObservableList<Food> objectsReturned = foodDataAccessor.search(query);
+//            ObservableList<Food> objectsReturned = foodDiaryDAO.search(query);
 //            for (Food f: objectsReturned) {
 //                System.out.println(f.getName());
 //            }

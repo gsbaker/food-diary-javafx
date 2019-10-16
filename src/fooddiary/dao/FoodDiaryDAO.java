@@ -1,5 +1,6 @@
-package sample;
+package fooddiary.dao;
 
+import fooddiary.Food;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -7,13 +8,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FoodDataAccessor {
+public class FoodDiaryDAO {
 
     private Connection connection;
 
-    public FoodDataAccessor() throws SQLException, ClassNotFoundException {
+    public FoodDiaryDAO() throws SQLException, ClassNotFoundException {
         final String driverClassName = "com.mysql.cj.jdbc.Driver";
-        final String databaseUrl = "jdbc:mysql://localhost:3306/FoodDiaryDatabase?useSSL=false";
+        final String databaseUrl = "jdbc:mysql://localhost:3306/FoodDiary?useSSL=false";
         final String user = "myuser";
         final String password = "password";
         Class.forName(driverClassName);
@@ -33,13 +34,7 @@ public class FoodDataAccessor {
         ){
             ObservableList<Food> foodObservableList = FXCollections.observableArrayList();
 
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                int calories = resultSet.getInt("calories");
-                Food food = new Food(id, name, calories);
-                foodObservableList.add(food);
-            }
+            extractResultSet(resultSet, foodObservableList);
             return foodObservableList;
         }
     }
@@ -50,14 +45,8 @@ public class FoodDataAccessor {
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM food");
         ){
             ArrayList<Food> foodArrayList = new ArrayList<>();
+            extractResultSet(resultSet, foodArrayList);
 
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                int calories = resultSet.getInt("calories");
-                Food food = new Food(id, name, calories);
-                foodArrayList.add(food);
-            }
             return foodArrayList;
         }
     }
@@ -103,27 +92,77 @@ public class FoodDataAccessor {
 
     public int generateId() throws SQLException {
         ArrayList<Food> currentFoods = getFoodArrayList();
-        int currentHighestID = currentFoods.get(currentFoods.size() - 1).getId();
-        return currentHighestID + 1;
+        if (currentFoods.size() > 0) {
+            return currentFoods.get(currentFoods.size() - 1).getId();
+        }
+        return 0;
     }
 
     public ObservableList<Food> search(String searchTerm) throws SQLException {
 
-        String query = "SELECT * FROM food WHERE name LIKE '" + searchTerm + "%'";
+        String query = "SELECT * FROM food WHERE name LIKE '%" + searchTerm + "%'";
 
         try (
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query);
         ){
             ObservableList<Food> foodObservableList = FXCollections.observableArrayList();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                int calories = resultSet.getInt("calories");
-                Food food = new Food(id, name, calories);
-                foodObservableList.add(food);
-            }
+            extractResultSet(resultSet, foodObservableList);
             return foodObservableList;
+        }
+    }
+
+//    public ObservableList<Food> smartSearch(String searchTerm) throws SQLException {
+//
+//        final int ERROR_MARGIN = 0;
+//        String searchString = ""; // string that is used in the query
+//        int lettersMatched = 0;
+//
+//        for (char c : searchTerm.toCharArray()) {
+//            String s = Character.toString(c);
+//            searchString += s;
+//
+//            String query = "SELECT * FROM food WHERE name LIKE %'" + s+ "%'"; // find all words that contain searchString
+//            try (
+//                    Statement statement = connection.createStatement();
+//                    ResultSet resultSet = statement.executeQuery(query);
+//            ){
+//                ObservableList<Food> foodObservableList = FXCollections.observableArrayList();
+//                while (resultSet.next()) { // adds all of the matched foods tofoodObservableList
+//                    int id = resultSet.getInt("id");
+//                    String name = resultSet.getString("name");
+//                    int calories = resultSet.getInt("calories");
+//                    Food food = new Food(id, name, calories);
+//                    foodObservableList.add(food);
+//
+//                    int[] counters = new int[foodObservableList.size()];
+//                    for (Food f : foodObservableList) { // find out if the food was added
+//
+//                    }
+//                }
+//            }
+//
+//        }
+//    }
+
+
+    private void extractResultSet(ResultSet resultSet, ObservableList<Food> foodObservableList) throws SQLException {
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            int calories = resultSet.getInt("calories");
+            Food food = new Food(id, name, calories);
+            foodObservableList.add(food);
+        }
+    }
+
+    private void extractResultSet(ResultSet resultSet, ArrayList<Food> foodArrayList) throws SQLException {
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            int calories = resultSet.getInt("calories");
+            Food food = new Food(id, name, calories);
+            foodArrayList.add(food);
         }
     }
 
