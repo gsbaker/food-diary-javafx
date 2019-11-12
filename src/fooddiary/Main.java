@@ -14,12 +14,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/view/view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../resources/view/view.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Food Diary");
 
         Scene scene = new Scene(root, 720, 480);
-        scene.getStylesheets().add("resources/css/style.css");
+        scene.getStylesheets().add("css/style.css");
 
         primaryStage.setScene(scene);
         primaryStage.show();

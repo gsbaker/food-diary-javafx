@@ -25,8 +25,22 @@ public class FoodDiary implements Serializable {
     private LocalDate estimatedDate;
     private transient DoubleProperty barUpdater;
     private ArrayList<Integer> savedCalories;
-    private ArrayList<Food> favourites;
+    private ArrayList<Food> foodNameAttributes;
+    private ArrayList<FavouriteFood> favouriteFoods;
 
+    public final int FAVOURITE_FOODS_MAX_SIZE = 5;
+
+    public ArrayList<FavouriteFood> getFavouriteFoods() {
+        return favouriteFoods;
+    }
+
+    public void setFavouriteFoods(ArrayList<FavouriteFood> favouriteFoods) {
+        this.favouriteFoods = favouriteFoods;
+    }
+
+    public void addToFavouriteFoods(FavouriteFood f) {
+        favouriteFoods.add(f);
+    }
 
     public FoodDiary() {
         this.targetCalories = 2000;
@@ -166,16 +180,13 @@ public class FoodDiary implements Serializable {
         this.savedCalories.add(amount);
     }
 
-    public ArrayList<Food> getFavourites() {
-        return favourites;
+
+    public ArrayList<Food> getFoodNameAttributes() {
+        return foodNameAttributes;
     }
 
-    public void setFavourites(ArrayList<Food> favourites) {
-        this.favourites = favourites;
-    }
-
-    public ObservableList<Food> getFavouritesObservableList() {
-        return FXCollections.observableArrayList(favourites);
+    public void setFoodNameAttributes(ArrayList<Food> foodNameAttributes) {
+        this.foodNameAttributes = foodNameAttributes;
     }
 
 }

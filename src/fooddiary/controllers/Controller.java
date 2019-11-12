@@ -1,5 +1,6 @@
 package fooddiary.controllers;
 
+import fooddiary.FavouriteFood;
 import fooddiary.Food;
 import fooddiary.FoodDiary;
 import fooddiary.dao.FoodDiaryDAO;
@@ -365,6 +366,7 @@ public class Controller implements Initializable {
                 break;
         }
         foodDiary.setChangesMade(true);
+
     }
 
     // Creates the updated food Observable list
@@ -384,6 +386,10 @@ public class Controller implements Initializable {
                 updateProgress();
             }
         }
+    }
+
+    private void addFavouriteFoods() {
+
     }
 
     public void addUserFoodEventHandler() {
@@ -473,24 +479,21 @@ public class Controller implements Initializable {
         }
     }
 
-//    private ObservableList<Food> listen() {
-//        searchField.textProperty().addListener(
-//                ((observable, oldValue, newValue) -> {
-//                    try {
-//                        ObservableList<Food> foods = foodDiaryDAO.search(newValue);
-//                    }
-//                    catch (SQLException e) {
-//                        e.printStackTrace();
-//                    }
-//                })
-//        );
-//    }
+
 
 
     public void handleClose() {
         if (foodDiary.isChangesMade()) {
             save();
         }
+    }
+
+    private ArrayList<String> createFoodAttributeList() throws SQLException {
+        ArrayList<String> foodNameAttributes = new ArrayList<>();
+        for (Food f : foodDiaryDAO.getFoodArrayList()) {
+            foodNameAttributes.add(f.getName());
+        }
+        return foodNameAttributes;
     }
 
 //    private void testQuery() {

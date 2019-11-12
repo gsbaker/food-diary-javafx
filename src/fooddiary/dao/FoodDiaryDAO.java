@@ -100,6 +100,8 @@ public class FoodDiaryDAO {
 
     public ObservableList<Food> search(String searchTerm) throws SQLException {
 
+        // TODO: Go through each char in search term and check how many foods are matched. If the food matchedCount ++
+
         String query = "SELECT * FROM food WHERE name LIKE '%" + searchTerm + "%'";
 
         try (
@@ -112,38 +114,7 @@ public class FoodDiaryDAO {
         }
     }
 
-//    public ObservableList<Food> smartSearch(String searchTerm) throws SQLException {
-//
-//        final int ERROR_MARGIN = 0;
-//        String searchString = ""; // string that is used in the query
-//        int lettersMatched = 0;
-//
-//        for (char c : searchTerm.toCharArray()) {
-//            String s = Character.toString(c);
-//            searchString += s;
-//
-//            String query = "SELECT * FROM food WHERE name LIKE %'" + s+ "%'"; // find all words that contain searchString
-//            try (
-//                    Statement statement = connection.createStatement();
-//                    ResultSet resultSet = statement.executeQuery(query);
-//            ){
-//                ObservableList<Food> foodObservableList = FXCollections.observableArrayList();
-//                while (resultSet.next()) { // adds all of the matched foods tofoodObservableList
-//                    int id = resultSet.getInt("id");
-//                    String name = resultSet.getString("name");
-//                    int calories = resultSet.getInt("calories");
-//                    Food food = new Food(id, name, calories);
-//                    foodObservableList.add(food);
-//
-//                    int[] counters = new int[foodObservableList.size()];
-//                    for (Food f : foodObservableList) { // find out if the food was added
-//
-//                    }
-//                }
-//            }
-//
-//        }
-//    }
+
 
 
     private void extractResultSet(ResultSet resultSet, ObservableList<Food> foodObservableList) throws SQLException {
