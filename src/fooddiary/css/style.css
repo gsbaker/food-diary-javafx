@@ -5,21 +5,27 @@
 
 * {
     -fx-font-family: "SF Pro Text";
+    letter-spacing: -.022em;
+    -fx-font-weight: bold;
 }
 
 
-.label {
-    -fx-font-family: "SF Pro Text";
-}
+/*.label {*/
+/*    -fx-font-family: "Helvetica Neue";*/
+/*    -fx-font-weight: bold;*/
+/*    -fx-font-style: normal;*/
+/*    -fx-font-size: 17px;*/
+/*}*/
 
-.title {
-    -fx-font-family: "SF Pro Display";
-}
+/*.title {*/
+/*    -fx-font-family: "Helvetica Neue";*/
+/*    -fx-font-weight: BOLD;*/
+/*}*/
 
 
-.titled-pane > .title {
-    -fx-font-family: "SF Pro Text";
-}
+/*.titled-pane > .title {*/
+/*    -fx-font-family: "Helvetica Neue";*/
+/*}*/
 
 .button {
     -fx-background-color: #106BFF;
@@ -58,13 +64,13 @@
 
 
 
-.table-column {
-    -fx-pref-width: 339px;
+.diary-table-column {
+    -fx-pref-width: 350px;
 }
 
 
 
-.addFoodTableColumn {
+.add-table-column {
     -fx-pref-width: 350px;
 }
 
@@ -81,28 +87,10 @@
     -fx-control-inner-background: #D9D9D9;
 }
 
-/*.default-color0.chart-series-line {*/
-    /*-fx-stroke: #FC2B2D;*/
-/*}*/
-
-/*.default-color1.chart-series-line {*/
-    /*-fx-stroke: #106BFF;*/
-/*}*/
-
-#splashContinue {
-    -fx-pref-width: 150px;
-    -fx-pref-height: 20px;
-    -fx-border-radius: 10px;
-}
-
-.errorLabel {
+.error-label {
     -fx-text-fill: #FC2B2D;
 }
 
-.successLabel {
+.success-label {
     -fx-text-fill: #30D33B;
-}
-
-#welcomeTitle {
-    -fx-font-size: 30pt;
 }

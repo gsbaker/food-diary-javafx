@@ -19,33 +19,12 @@
                <content>
                   <VBox spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#removeEventHandler" text="Remove" />
-                        <Label style="-fx-font-size: 15;" styleClass="titleLabel" text="Breakfast" />
-                        <TableView fx:id="breakfastTableView" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="680.0">
+                        <Button mnemonicParsing="false" onAction="#removeFoods" text="Remove" />
+                        <Label style="-fx-font-size: 15;" styleClass="titleLabel" text="Today" />
+                        <TableView fx:id="diaryTable" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="680.0">
                            <columns>
-                              <TableColumn fx:id="breakfastNameColumn" prefWidth="200.0" text="Food" />
-                              <TableColumn fx:id="breakfastCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
-                           </columns>
-                        </TableView>
-                        <Label style="-fx-font-size: 15;" styleClass="titleLabel" text="Lunch" />
-                        <TableView fx:id="lunchTableView" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="680.0">
-                           <columns>
-                              <TableColumn fx:id="lunchNameColumn" prefWidth="200.0" text="Food" />
-                              <TableColumn fx:id="lunchCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
-                           </columns>
-                        </TableView>
-                        <Label style="-fx-font-size: 15;" styleClass="titleLabel" text="Dinner" />
-                        <TableView fx:id="dinnerTableView" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="680.0">
-                           <columns>
-                              <TableColumn fx:id="dinnerNameColumn" prefWidth="200.0" text="Food" />
-                              <TableColumn fx:id="dinnerCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
-                           </columns>
-                        </TableView>
-                        <Label style="-fx-font-size: 15;" styleClass="titleLabel" text="Snacks" />
-                        <TableView fx:id="snackTableView" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="680.0">
-                           <columns>
-                              <TableColumn fx:id="snackNameColumn" prefWidth="200.0" text="Food" />
-                              <TableColumn fx:id="snackCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
+                              <TableColumn fx:id="diaryNameColumn" prefWidth="200.0" text="Food" />
+                              <TableColumn fx:id="diaryCaloriesColumn" prefWidth="200.0" text="Calories (cal)" />
                            </columns>
                         </TableView>
                      </children>
@@ -66,24 +45,21 @@
                <children>
                   <HBox spacing="10.0">
                      <children>
-                        <TextField fx:id="searchField" prefHeight="27.0" prefWidth="500.0" promptText="Search Database..." />
-                        <Button mnemonicParsing="false" text="Search" />
+                        <TextField fx:id="searchField" prefHeight="27.0" prefWidth="600.0" promptText="Search" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </HBox>
-                  <TableView fx:id="addFoodTableView" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="addTable" prefHeight="200.0" prefWidth="200.0">
                      <columns>
-                        <TableColumn fx:id="addFoodNameColumn" prefWidth="200.0" styleClass="addFoodTableColumn" text="Food" />
-                        <TableColumn fx:id="addFoodCaloriesColumn" prefWidth="200.0" styleClass="addFoodTableColumn" text="Calories (cal)" />
+                        <TableColumn fx:id="addNameColumn" prefWidth="200.0" styleClass="add-table-column" text="Food" />
+                        <TableColumn fx:id="addCaloriesColumn" prefWidth="200.0" styleClass="add-table-column" text="Calories (cal)" />
                      </columns>
                   </TableView>
-                  <ChoiceBox fx:id="mealtimeChoiceBox" prefWidth="150.0" />
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#addFoodsEventHandler" text="Add To Diary" />
-                        <Button mnemonicParsing="false" text="Add to favourites" />
+                        <Button mnemonicParsing="false" onAction="#addFoods" text="Add" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -94,9 +70,9 @@
                         <Label text="Add your own" />
                         <HBox spacing="10.0">
                            <children>
-                              <TextField fx:id="addFoodNameTextField" promptText="Food Name" />
-                              <TextField fx:id="addFoodCaloriesTextField" promptText="Calories" />
-                              <Button mnemonicParsing="false" onAction="#addUserFoodEventHandler" text="Add" />
+                              <TextField fx:id="nameInput" promptText="Food Name" />
+                              <TextField fx:id="caloriesInput" promptText="Calories" />
+                              <Button mnemonicParsing="false" onAction="#addUserFood" text="Add" />
                            </children>
                            <VBox.margin>
                               <Insets />
@@ -163,7 +139,7 @@
                            </padding>
                         </Label>
                         <TextField id="setTargetCaloriesTextField" fx:id="targetCaloriesInput" promptText="Enter a number" />
-                        <Button mnemonicParsing="false" onAction="#setTargetCaloriesEventHandler" text="Set" />
+                        <Button mnemonicParsing="false" onAction="#setTargetCalories" text="Set" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

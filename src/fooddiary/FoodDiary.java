@@ -11,87 +11,64 @@ import java.util.ArrayList;
 
 public class FoodDiary implements Serializable {
 
+    private ArrayList<Food> foods;
+    private ArrayList<Food> favourites;
     private int targetCalories;
     private int totalCalories;
-    private transient ObservableList<Food> breakfastFoodsObservableList;
-    private transient ObservableList<Food> lunchFoodsObservableList;
-    private transient ObservableList<Food> dinnerFoodsObservableList;
-    private transient ObservableList<Food> snackFoodsObservableList;
-    private ArrayList<Food> breakfastFoodsList;
-    private ArrayList<Food> lunchFoodsList;
-    private ArrayList<Food> dinnerFoodsList;
-    private ArrayList<Food> SnackFoodsList;
     private transient boolean changesMade;
     private LocalDate estimatedDate;
     private transient DoubleProperty barUpdater;
     private ArrayList<Integer> savedCalories;
-    private ArrayList<Food> foodNameAttributes;
-    private ArrayList<FavouriteFood> favouriteFoods;
 
-    public final int FAVOURITE_FOODS_MAX_SIZE = 5;
-
-    public ArrayList<FavouriteFood> getFavouriteFoods() {
-        return favouriteFoods;
-    }
-
-    public void setFavouriteFoods(ArrayList<FavouriteFood> favouriteFoods) {
-        this.favouriteFoods = favouriteFoods;
-    }
-
-    public void addToFavouriteFoods(FavouriteFood f) {
-        favouriteFoods.add(f);
-    }
 
     public FoodDiary() {
         this.targetCalories = 2000;
+        this.foods = new ArrayList<>();
+        this.favourites = new ArrayList<>();
+    }
+
+    public ArrayList<Food> getFoods() {
+        return foods;
+    }
+
+    public void addFoods(ArrayList<Food> foods) {
+        this.foods.addAll(foods);
+    }
+
+    public void addFood(Food e) {
+        this.foods.add(e);
+    }
+
+    public ArrayList<Food> getFavourites() {
+        return favourites;
+    }
+
+    public void addFavourites(ArrayList<Food> foods) {
+        this.favourites.addAll(foods);
+    }
+
+    public void setFoods(ArrayList<Food> foods) {
+        this.foods = foods;
+    }
+
+    public void setFavourites(ArrayList<Food> favourites) {
+        this.favourites = favourites;
+    }
+
+    public void addFavourite(Food e) {
+        this.favourites.add(e);
     }
 
     public int getTotalCalories() {
         return totalCalories;
     }
 
-    public void setTotalCalories(int totalCalories) {
-        this.totalCalories = totalCalories;
-    }
-
-    public void addToTotalCalories(int amount) {
+    public void increaseCalories(int amount) {
         this.totalCalories += amount;
     }
 
-    public void decreaseTotalCalories(int amount) {
+    public void decreaseCalories(int amount) {
         this.totalCalories -= amount;
-    }
-
-    public ObservableList<Food> getBreakfastFoodsObservableList() {
-        return breakfastFoodsObservableList;
-    }
-
-    public void setBreakfastFoodsObservableList(ObservableList<Food> breakfastFoodsObservableList) {
-        this.breakfastFoodsObservableList = breakfastFoodsObservableList;
-    }
-
-    public ObservableList<Food> getLunchFoodsObservableList() {
-        return lunchFoodsObservableList;
-    }
-
-    public void setLunchFoodsObservableList(ObservableList<Food> lunchFoodsObservableList) {
-        this.lunchFoodsObservableList = lunchFoodsObservableList;
-    }
-
-    public ObservableList<Food> getDinnerFoodsObservableList() {
-        return dinnerFoodsObservableList;
-    }
-
-    public void setDinnerFoodsObservableList(ObservableList<Food> dinnerFoodsObservableList) {
-        this.dinnerFoodsObservableList = dinnerFoodsObservableList;
-    }
-
-    public ObservableList<Food> getSnackFoodsObservableList() {
-        return snackFoodsObservableList;
-    }
-
-    public void setSnackFoodsObservableList(ObservableList<Food> snackFoodsObservableList) {
-        this.snackFoodsObservableList = snackFoodsObservableList;
     }
 
     public int getTargetCalories() {
@@ -100,38 +77,6 @@ public class FoodDiary implements Serializable {
 
     public void setTargetCalories(int targetCalories) {
         this.targetCalories = targetCalories;
-    }
-
-    public ArrayList<Food> getBreakfastFoodsList() {
-        return breakfastFoodsList;
-    }
-
-    public void setBreakfastFoodsList(ArrayList<Food> breakfastFoodsList) {
-        this.breakfastFoodsList = breakfastFoodsList;
-    }
-
-    public ArrayList<Food> getLunchFoodsList() {
-        return lunchFoodsList;
-    }
-
-    public void setLunchFoodsList(ArrayList<Food> lunchFoodsList) {
-        this.lunchFoodsList = lunchFoodsList;
-    }
-
-    public ArrayList<Food> getDinnerFoodsList() {
-        return dinnerFoodsList;
-    }
-
-    public void setDinnerFoodsList(ArrayList<Food> dinnerFoodsList) {
-        this.dinnerFoodsList = dinnerFoodsList;
-    }
-
-    public ArrayList<Food> getSnackFoodsList() {
-        return SnackFoodsList;
-    }
-
-    public void setSnackFoodsList(ArrayList<Food> snackFoodsList) {
-        SnackFoodsList = snackFoodsList;
     }
 
     public boolean isChangesMade() {
@@ -148,13 +93,6 @@ public class FoodDiary implements Serializable {
 
     public void setEstimatedDate(LocalDate estimatedDate) {
         this.estimatedDate = estimatedDate;
-    }
-
-    public double getBarUpdater() {
-        if (barUpdater != null) {
-            return barUpdater.get();
-        }
-        return 0;
     }
 
     public void setBarUpdater(double barUpdater) {
@@ -176,17 +114,8 @@ public class FoodDiary implements Serializable {
         this.savedCalories = savedCalories;
     }
 
-    public void addToSavedCalories(int amount) {
+    public void saveCalories(int amount) {
         this.savedCalories.add(amount);
-    }
-
-
-    public ArrayList<Food> getFoodNameAttributes() {
-        return foodNameAttributes;
-    }
-
-    public void setFoodNameAttributes(ArrayList<Food> foodNameAttributes) {
-        this.foodNameAttributes = foodNameAttributes;
     }
 
 }

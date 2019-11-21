@@ -3,7 +3,6 @@ package fooddiary.dao;
 import fooddiary.Food;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,27 +26,12 @@ public class FoodDiaryDAO {
         }
     }
 
-    public ObservableList<Food> getFoodObservableList() throws SQLException {
+    public ArrayList<Food> getAllFoods() throws SQLException {
         try (
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM food");
         ){
-            ObservableList<Food> foodObservableList = FXCollections.observableArrayList();
-
-            extractResultSet(resultSet, foodObservableList);
-            return foodObservableList;
-        }
-    }
-
-    public ArrayList<Food> getFoodArrayList() throws SQLException {
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM food");
-        ){
-            ArrayList<Food> foodArrayList = new ArrayList<>();
-            extractResultSet(resultSet, foodArrayList);
-
-            return foodArrayList;
+            return getFoods(resultSet);
         }
     }
 
@@ -91,14 +75,14 @@ public class FoodDiaryDAO {
     }
 
     public int generateId() throws SQLException {
-        ArrayList<Food> currentFoods = getFoodArrayList();
+        ArrayList<Food> currentFoods = getAllFoods();
         if (currentFoods.size() > 0) {
-            return currentFoods.get(currentFoods.size() - 1).getId();
+            return currentFoods.get(currentFoods.size() - 1).getId() + 1;
         }
         return 0;
     }
 
-    public ObservableList<Food> search(String searchTerm) throws SQLException {
+    public ArrayList<Food> search(String searchTerm) throws SQLException {
 
         // TODO: Go through each char in search term and check how many foods are matched. If the food matchedCount ++
 
@@ -108,34 +92,20 @@ public class FoodDiaryDAO {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query);
         ){
-            ObservableList<Food> foodObservableList = FXCollections.observableArrayList();
-            extractResultSet(resultSet, foodObservableList);
-            return foodObservableList;
+            return getFoods(resultSet);
         }
     }
 
-
-
-
-    private void extractResultSet(ResultSet resultSet, ObservableList<Food> foodObservableList) throws SQLException {
+    private ArrayList<Food> getFoods(ResultSet resultSet) throws SQLException {
+        ArrayList<Food> found = new ArrayList<>();
         while (resultSet.next()) {
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
             int calories = resultSet.getInt("calories");
             Food food = new Food(id, name, calories);
-            foodObservableList.add(food);
+            found.add(food);
         }
+        return found;
     }
-
-    private void extractResultSet(ResultSet resultSet, ArrayList<Food> foodArrayList) throws SQLException {
-        while (resultSet.next()) {
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            int calories = resultSet.getInt("calories");
-            Food food = new Food(id, name, calories);
-            foodArrayList.add(food);
-        }
-    }
-
 
 }
